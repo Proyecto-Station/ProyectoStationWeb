@@ -1,5 +1,16 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# dependencies
+/station/node_modules
+/station/.pnp
+station/.pnp.js
+
+# testing
+/station/coverage
+
+# production
+/station/build
+
 # misc
 .DS_Store
 .env
