@@ -27,7 +27,7 @@ class Username(models.Model):
 """
   Clase Empresas
 """
-class Companies(models.Model):
+class Companie(models.Model):
   SWITCH = {
     ('0', 'Inactive'),
     ('1', 'Active'),
@@ -42,27 +42,55 @@ class Companies(models.Model):
 """
   Clase Choferes
 """
-class Drivers(models.Model):
+class Driver(models.Model):
   name = models.CharField(max_length = 250)
   last_name = models.CharField(max_length = 250)
   rut = models.CharField(max_length = 12, unique = True)
   phone = models.CharField(max_length = 15)
-  company = models.ForeignKey(Companies, on_delete = models.CASCADE)
+  company = models.ForeignKey(Companie, on_delete = models.CASCADE)
   dateinit = models.DateField()
   age = models.IntegerField(default = 0)
 
 """
   Clase Andenes
 """
-class Platforms(models.Model):
+class Platform(models.Model):
   name = models.CharField(max_length = 10)
 
 """
   Clase Buses
 """
-class Bus(models.Model):
+class Bussed(models.Model):
   model = models.CharField(max_length = 250)
   plate = models.CharField(max_length = 6, unique = True)
-  driver = models.ForeignKey(Drivers, on_delete = models.CASCADE)
-  company = models.ForeignKey(Companies, on_delete = models.CASCADE)
-  sidewalks = models.ForeignKey(Platforms, on_delete = models.CASCADE)
+  driver = models.ForeignKey(Driver, on_delete = models.CASCADE)
+  company = models.ForeignKey(Companie, on_delete = models.CASCADE)
+  sidewalks = models.ForeignKey(Platform, on_delete = models.CASCADE)
+
+"""
+  Clase Destinos
+"""
+class Destination(models.Model):
+  name = models.CharField(max_length = 250)
+
+"""
+  Clase Origen
+"""
+class Origen(models.Model):
+  name = models.CharField(max_length = 250)
+
+"""
+  Clase Horarios
+"""
+class Schedule(models.Model):
+  origen = models.ForeignKey(Origen, on_delete = models.CASCADE)
+  destination = models.ForeignKey(Destination, on_delete = models.CASCADE)
+  check_out_time = models.TimeField()
+  arrival_time = models.TimeField()
+  bus = models.ForeignKey(Bussed, on_delete = models.CASCADE)
+  company = models.ForeignKey(Companie, on_delete = models.CASCADE)
+  sidewalks = models.ForeignKey(Platform, on_delete = models.CASCADE)
+
+"""
+  Clase
+"""
