@@ -83,7 +83,7 @@ class Origen(models.Model):
   Clase Horarios
 """
 class Schedule(models.Model):
-  code_schedule = models.CharField(max_length = 8, unique = True)
+  code_schedule = models.CharField(default = 0, max_length = 8, unique = True)
   origen = models.ForeignKey(Origen, on_delete = models.CASCADE)
   destination = models.ForeignKey(Destination, on_delete = models.CASCADE)
   check_out_time = models.TimeField()
