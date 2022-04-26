@@ -12,8 +12,8 @@ class Username(models.Model):
   )
   
   SESSIONS = (
-    ('0', 'Offline'),
-    ('1', 'Online'),
+    (0, 'Offline'),
+    (1, 'Online'),
   )
   
   name = models.CharField(max_length = 250)
@@ -22,7 +22,7 @@ class Username(models.Model):
   email = models.EmailField(max_length = 250)
   password = models.CharField(max_length = 50)
   permission = models.CharField(max_length = 1, choices = GROUPS)
-  session = models.IntegerField(default = 0, choices = SESSIONS)
+  session = models.IntegerField(choices = SESSIONS)
 
 """
   Clase Empresas

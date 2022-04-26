@@ -1,4 +1,3 @@
-from multiprocessing.connection import Client
 from django.contrib import admin
 from .models import Bussed, Companie, Destination, Driver, Origen, Platform, Schedule, Username, Customer, Reserve
 
