@@ -7,7 +7,6 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import Bussed, Companie, Destination, Driver, Origen, Platform, Schedule, Username, Customer, Reserve
 
 class UsernameView(View):
-
   @method_decorator(csrf_exempt)
   def dispatch(self, request, *args, **kwargs):
     return super().dispatch(request, *args, **kwargs)
@@ -94,3 +93,47 @@ class UsernameView(View):
         'message': 'Success',
       }
     return JsonResponse(data)
+
+class CompanieView(View):
+  @method_decorator(csrf_exempt)
+  def dispatch(self, request, *args, **kwargs):
+    return super().dispatch(request, *args, **kwargs)
+
+  def get(self, request, id = 0):
+    if id > 0:
+      company = list(Companie.objects.filter(id=id).values())
+
+      if len(company) > 0:
+        companies = company[0]
+
+        data = {
+          'message': 'Success',
+          'Companie': companies,
+        }
+      else:
+        data = {
+          'message': 'Companie not found...',
+        }
+      return JsonResponse(data)
+    else:
+      company = list(Companie.objects.values())
+
+      if len(company) > 0:
+        data = {
+          'message': 'Success',
+          'Companie': company,
+        }
+      else:
+        data = {
+          'message': 'Companie not found...',
+        }
+      return JsonResponse(data)
+
+  def post(self, request):
+    pass
+
+  def put(self, request, id):
+    pass
+
+  def delete(self, request, id):
+    pass
