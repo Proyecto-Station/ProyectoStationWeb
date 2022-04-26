@@ -85,5 +85,12 @@ class UsernameView(View):
     return JsonResponse(data)
   
   def delete(self, request, id):
-    
-    pass
+    usernames = list(Username.objects.filter(id=id).values())
+
+    if len(usernames) > 0:
+      Username.objects.filter(id=id).delete()
+    else:
+      data = {
+        'message': 'Success',
+      }
+    return JsonResponse(data)
