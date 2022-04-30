@@ -1,3 +1,4 @@
+from pyexpat import model
 from django.db import models
 
 """
@@ -19,8 +20,10 @@ class Username(models.Model):
   name = models.CharField(max_length = 250)
   last_name = models.CharField(max_length = 250)
   rut = models.CharField(max_length = 12, unique = True)
+  phone = models.CharField(max_length = 15, unique = True)
   email = models.EmailField(max_length = 250)
   password = models.CharField(max_length = 50)
+  avatar = models.FileField(upload_to = 'upload/', null = True, default = None)
   permission = models.CharField(max_length = 1, choices = GROUPS)
   session = models.IntegerField(choices = SESSIONS)
 
