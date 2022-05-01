@@ -1,4 +1,3 @@
-from pyexpat import model
 from django.db import models
 
 """
@@ -39,6 +38,7 @@ class Companie(models.Model):
   name = models.CharField(max_length = 250)
   rut = models.CharField(max_length = 12, unique = True)
   email = models.EmailField(max_length = 250)
+  phone = models.CharField(max_length = 15)
   address = models.CharField(max_length = 255)
   status = models.IntegerField(default = 0, choices = SWITCH)
 
@@ -49,7 +49,7 @@ class Driver(models.Model):
   name = models.CharField(max_length = 250)
   last_name = models.CharField(max_length = 250)
   rut = models.CharField(max_length = 12, unique = True)
-  phone = models.CharField(max_length = 15)
+  phone = models.CharField(max_length = 15, unique = True)
   company = models.ForeignKey(Companie, on_delete = models.CASCADE)
   dateinit = models.DateField()
   age = models.IntegerField(default = 0)
