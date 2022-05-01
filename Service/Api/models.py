@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import date
 
 """
   Clase Usuarios
@@ -19,7 +20,7 @@ class Username(models.Model):
   name = models.CharField(max_length = 250)
   last_name = models.CharField(max_length = 250)
   rut = models.CharField(max_length = 12, unique = True)
-  phone = models.CharField(max_length = 15, unique = True)
+  phone = models.CharField(max_length = 15, unique = True, default = None)
   email = models.EmailField(max_length = 250)
   password = models.CharField(max_length = 50)
   avatar = models.FileField(upload_to = 'upload/', null = True, default = None)
@@ -31,44 +32,62 @@ class Username(models.Model):
 """
 class Companie(models.Model):
   SWITCH = {
-    ('0', 'Inactive'),
-    ('1', 'Active'),
+    (0, 'Inactive'),
+    (1, 'Active'),
   }
 
   name = models.CharField(max_length = 250)
   rut = models.CharField(max_length = 12, unique = True)
   email = models.EmailField(max_length = 250)
-  phone = models.CharField(max_length = 15)
+  phone = models.CharField(max_length = 15, unique = True, default = None)
   address = models.CharField(max_length = 255)
   status = models.IntegerField(default = 0, choices = SWITCH)
+  date_init = models.DateField(default = date.today)
 
 """
-  Clase Choferes
+  Clase Piloto
 """
 class Driver(models.Model):
   name = models.CharField(max_length = 250)
   last_name = models.CharField(max_length = 250)
   rut = models.CharField(max_length = 12, unique = True)
-  phone = models.CharField(max_length = 15, unique = True)
+  phone = models.CharField(max_length = 15, unique = True, default = None)
   company = models.ForeignKey(Companie, on_delete = models.CASCADE)
-  dateinit = models.DateField()
-  age = models.IntegerField(default = 0)
+  date_init = models.DateField(default = date.today)
+  age_job = models.IntegerField(default = None)
+
+"""
+  Clase Copiloto
+"""
+class CoDriver(models.Model):
+  name = models.CharField(max_length = 250)
+  last_name = models.CharField(max_length = 250)
+  rut = models.CharField(max_length = 12, unique = True)
+  phone = models.CharField(max_length = 15, unique = True, default = None)
+  company = models.ForeignKey(Companie, on_delete = models.CASCADE)
+  date_init = models.DateField(default = date.today)
+  age_job = models.IntegerField(default = None)
+
+"""
+  Clase Buses
+"""
+class Bussed(models.Model):
+  SECURITY_SYSTEM = {
+    ('', '')
+  }
+
+  plate = models.CharField(max_length = 6, unique = True)
+  driver = models.ForeignKey(Driver, on_delete = models.CASCADE)
+  co_driver = models.ForeignKey(CoDriver, on_delete = models.CASCADE, default = None)
+  company = models.ForeignKey(Companie, on_delete = models.CASCADE)
+  passenger = models.IntegerField(default = None)
+  security = models.IntegerField(default = 0, choices = SECURITY_SYSTEM)
 
 """
   Clase Andenes
 """
 class Platform(models.Model):
   name = models.CharField(max_length = 10)
-
-"""
-  Clase Buses
-"""
-class Bussed(models.Model):
-  model = models.CharField(max_length = 250)
-  plate = models.CharField(max_length = 6, unique = True)
-  driver = models.ForeignKey(Driver, on_delete = models.CASCADE)
-  company = models.ForeignKey(Companie, on_delete = models.CASCADE)
-  sidewalks = models.ForeignKey(Platform, on_delete = models.CASCADE)
 
 """
   Clase Destinos
@@ -100,8 +119,8 @@ class Schedule(models.Model):
 """
 class Customer(models.Model):
   ACCESS_TARGET = (
-    ('0', 'Invalid'),
-    ('1', 'Valid')
+    (0, 'Invalid'),
+    (1, 'Valid')
   )
 
   name = models.ForeignKey(Username, on_delete = models.CASCADE)
