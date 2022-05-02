@@ -73,7 +73,10 @@ class CoDriver(models.Model):
 """
 class Bussed(models.Model):
   SECURITY_SYSTEM = {
-    ('', '')
+    (0, 'Basic Level'),
+    (1, 'Medium Level'),
+    (2, 'High Level'),
+    (3, 'Max Level')
   }
 
   plate = models.CharField(max_length = 6, unique = True)
