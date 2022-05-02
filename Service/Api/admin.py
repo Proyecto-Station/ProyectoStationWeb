@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Bussed, Companie, Destination, Driver, Origen, Platform, Schedule, Username, Customer, Reserve
+from .models import Bussed, Companie, Destination, Driver, Origen, Platform, Schedule, Username, CoDriver, Reserve
 
 arr = [
   Username, 
@@ -10,7 +10,7 @@ arr = [
   Destination, 
   Origen, 
   Schedule, 
-  Customer, 
+  CoDriver,
   Reserve
 ]
 

@@ -4,7 +4,8 @@ from django.http import JsonResponse
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
-from .models import Bussed, Companie, Destination, Driver, Origen, Platform, Schedule, Username, Customer, Reserve
+from .models import Username, Companie, Driver, CoDriver, Bussed, Platform, Origen
+from .models import Destination, Schedule, Reserve
 
 class UsernameView(View):
   @method_decorator(csrf_exempt)
@@ -135,5 +136,141 @@ class CompanieView(View):
   def put(self, request, id):
     pass
 
+  def delete(self, request, id):
+    pass
+
+class DriverView(View):
+  @method_decorator(csrf_exempt)
+  def dispatch(self, request, *args, **kwargs):
+    return super().dispatch(request, *args, **kwargs)
+  
+  def get(self, request, id = 0):
+    pass
+  
+  def post(self, request):
+    pass
+
+  def put(self, request, id):
+    pass
+  
+  def delete(self, request, id):
+    pass
+
+class CoDriverView(View):
+  @method_decorator(csrf_exempt)
+  def dispatch(self, request, *args, **kwargs):
+    return super().dispatch(request, *args, **kwargs)
+  
+  def get(self, request, id = 0):
+    pass
+  
+  def post(self, request):
+    pass
+
+  def put(self, request, id):
+    pass
+  
+  def delete(self, request, id):
+    pass
+
+class BussedView(View):
+  @method_decorator(csrf_exempt)
+  def dispatch(self, request, *args, **kwargs):
+    return super().dispatch(request, *args, **kwargs)
+  
+  def get(self, request, id = 0):
+    pass
+  
+  def post(self, request):
+    pass
+
+  def put(self, request, id):
+    pass
+  
+  def delete(self, request, id):
+    pass
+
+class PlatformView(View):
+  @method_decorator(csrf_exempt)
+  def dispatch(self, request, *args, **kwargs):
+    return super().dispatch(request, *args, **kwargs)
+  
+  def get(self, request, id = 0):
+    pass
+  
+  def post(self, request):
+    pass
+
+  def put(self, request, id):
+    pass
+  
+  def delete(self, request, id):
+    pass
+
+class OrigenView(View):
+  @method_decorator(csrf_exempt)
+  def dispatch(self, request, *args, **kwargs):
+    return super().dispatch(request, *args, **kwargs)
+  
+  def get(self, request, id = 0):
+    pass
+  
+  def post(self, request):
+    pass
+
+  def put(self, request, id):
+    pass
+  
+  def delete(self, request, id):
+    pass
+
+class DestinationView(View):
+  @method_decorator(csrf_exempt)
+  def dispatch(self, request, *args, **kwargs):
+    return super().dispatch(request, *args, **kwargs)
+  
+  def get(self, request, id = 0):
+    pass
+  
+  def post(self, request):
+    pass
+
+  def put(self, request, id):
+    pass
+  
+  def delete(self, request, id):
+    pass
+
+class ScheduleView(View):
+  @method_decorator(csrf_exempt)
+  def dispatch(self, request, *args, **kwargs):
+    return super().dispatch(request, *args, **kwargs)
+  
+  def get(self, request, id = 0):
+    pass
+  
+  def post(self, request):
+    pass
+
+  def put(self, request, id):
+    pass
+  
+  def delete(self, request, id):
+    pass
+
+class ReserveView(View):
+  @method_decorator(csrf_exempt)
+  def dispatch(self, request, *args, **kwargs):
+    return super().dispatch(request, *args, **kwargs)
+  
+  def get(self, request, id = 0):
+    pass
+  
+  def post(self, request):
+    pass
+
+  def put(self, request, id):
+    pass
+  
   def delete(self, request, id):
     pass

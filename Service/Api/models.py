@@ -93,22 +93,22 @@ class Platform(models.Model):
   name = models.CharField(max_length = 10)
 
 """
-  Clase Destinos
-"""
-class Destination(models.Model):
-  name = models.CharField(max_length = 250)
-
-"""
   Clase Origen
 """
 class Origen(models.Model):
   name = models.CharField(max_length = 250)
 
 """
+  Clase Destinos
+"""
+class Destination(models.Model):
+  name = models.CharField(max_length = 250)
+
+"""
   Clase Horarios
 """
 class Schedule(models.Model):
-  code_schedule = models.CharField(default = 0, max_length = 8, unique = True)
+  code_schedule = models.CharField(max_length = 8, unique = True)
   origen = models.ForeignKey(Origen, on_delete = models.CASCADE)
   destination = models.ForeignKey(Destination, on_delete = models.CASCADE)
   check_out_time = models.TimeField()
@@ -116,20 +116,6 @@ class Schedule(models.Model):
   bus = models.ForeignKey(Bussed, on_delete = models.CASCADE)
   company = models.ForeignKey(Companie, on_delete = models.CASCADE)
   sidewalks = models.ForeignKey(Platform, on_delete = models.CASCADE)
-
-"""
-  Clase Cliente
-"""
-class Customer(models.Model):
-  ACCESS_TARGET = (
-    (0, 'Invalid'),
-    (1, 'Valid')
-  )
-
-  name = models.ForeignKey(Username, on_delete = models.CASCADE)
-  company = models.ForeignKey(Companie, on_delete = models.CASCADE)
-  date_entry = models.DateTimeField()
-  access = models.IntegerField(default = 0, choices = ACCESS_TARGET)
 
 """
   Clase Reserva
