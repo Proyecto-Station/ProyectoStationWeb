@@ -1,4 +1,3 @@
-import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -7,10 +6,8 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 
-class AppBarView extends React.Component {
-  render() {
+const AppBarView = () => {
     return(
-      <React.Fragment>
         <Box sx={{ flexGrow: 1}}>
           <AppBar postion="static">
             <Toolbar>
@@ -26,9 +23,7 @@ class AppBarView extends React.Component {
             </Toolbar>
           </AppBar>
         </Box>
-      </React.Fragment>
     )
-  }
-} 
+}
 
 export default AppBarView;
