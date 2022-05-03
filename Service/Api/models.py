@@ -51,6 +51,7 @@ class Driver(models.Model):
   name = models.CharField(max_length = 250)
   last_name = models.CharField(max_length = 250)
   rut = models.CharField(max_length = 12, unique = True)
+  email = models.EmailField(max_length = 250)
   phone = models.CharField(max_length = 15, unique = True, default = None)
   company = models.ForeignKey(Companie, on_delete = models.CASCADE)
   date_init = models.DateField(default = date.today)
