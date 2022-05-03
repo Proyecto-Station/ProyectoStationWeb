@@ -4,8 +4,7 @@ from django.http import JsonResponse
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
-from .models import Username, Companie, Driver, CoDriver, Bussed, Platform, Origen
-from .models import Destination, Schedule, Reserve
+from .models import Username, Companie, Driver, CoDriver, Bussed, Platform, Origen, Destination, Schedule, Reserve
 
 class UsernameView(View):
   @method_decorator(csrf_exempt)
@@ -411,7 +410,6 @@ class BussedView(View):
       co_driver = jd['co_driver'],
       company = jd['company'],
       passenger = jd['passenger'],
-      company = jd['company'],
       security = jd['security']
     )
 
