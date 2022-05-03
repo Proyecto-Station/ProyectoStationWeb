@@ -21,7 +21,7 @@ class Username(models.Model):
   last_name = models.CharField(max_length = 250)
   rut = models.CharField(max_length = 12, unique = True)
   phone = models.CharField(max_length = 15, unique = True, default = None)
-  email = models.EmailField(max_length = 250)
+  email = models.EmailField(max_length = 250, default = None)
   password = models.CharField(max_length = 50)
   avatar = models.FileField(upload_to = 'upload/', null = True, default = None)
   permission = models.CharField(max_length = 1, choices = GROUPS)
