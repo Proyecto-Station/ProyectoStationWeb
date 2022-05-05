@@ -6,26 +6,26 @@ from datetime import date
 """
 class Username(models.Model):
   GROUPS = (
-    ('U', 'User'),
-    ('C', 'Client'),
-    ('S', 'Sub-Client'),
-    ('A', 'Administrator'),
+    (0, 'User'),
+    (1, 'Client'),
+    (2, 'Sub-Client'),
+    (3, 'Administrator'),
   )
   
   SESSIONS = (
-    (0, 'Offline'),
-    (1, 'Online'),
+    (0, 'Inactive'),
+    (1, 'Active'),
   )
   
-  name = models.CharField(max_length = 250)
-  last_name = models.CharField(max_length = 250)
-  rut = models.CharField(max_length = 12, unique = True)
-  phone = models.CharField(max_length = 15, unique = True, default = None)
-  email = models.EmailField(max_length = 250, unique = True, default = None)
-  password = models.CharField(max_length = 50)
+  name = models.CharField(max_length = 250, null = False, default = None)
+  last_name = models.CharField(max_length = 250, null = False, default = None)
+  rut = models.CharField(max_length = 12, unique = True, null = False, default = None)
+  phone = models.CharField(max_length = 15, unique = True, null = False, default = None)
+  email = models.EmailField(max_length = 250, unique = True, null = False, default = None)
+  password = models.CharField(max_length = 250, null = False, default = None)
   avatar = models.FileField(upload_to = 'upload/', null = True, default = None)
-  permission = models.CharField(max_length = 1, choices = GROUPS)
-  session = models.IntegerField(choices = SESSIONS)
+  permission = models.IntegerField(choices = GROUPS, null = False, default = 0)
+  status = models.IntegerField(choices = SESSIONS, null = False, default = 0)
 
 """
   Clase Empresas
@@ -36,23 +36,23 @@ class Companie(models.Model):
     (1, 'Active'),
   }
 
-  name = models.CharField(max_length = 250)
-  rut = models.CharField(max_length = 12, unique = True)
-  email = models.EmailField(max_length = 250, unique = True, default = None)
-  phone = models.CharField(max_length = 15, unique = True, default = None)
-  address = models.CharField(max_length = 255)
-  status = models.IntegerField(default = 0, choices = SWITCH)
-  date_init = models.DateField(default = date.today)
+  name = models.CharField(max_length = 250, null = False, default = None)
+  rut = models.CharField(max_length = 12, unique = True, null = False, default = None)
+  email = models.EmailField(max_length = 250, unique = True, null = False, default = None)
+  phone = models.CharField(max_length = 15, unique = True, null = False, default = None)
+  address = models.CharField(max_length = 250, null = False, default = None)
+  status = models.IntegerField(choices = SWITCH, null = False, default = 0)
+  date_init = models.DateField(null = False, default = date.today)
 
 """
   Clase Piloto
 """
 class Driver(models.Model):
-  name = models.CharField(max_length = 250)
-  last_name = models.CharField(max_length = 250)
-  rut = models.CharField(max_length = 12, unique = True)
-  email = models.EmailField(max_length = 250, unique = True, default = None)
-  phone = models.CharField(max_length = 15, unique = True, default = None)
+  name = models.CharField(max_length = 250, null = False, default = None)
+  last_name = models.CharField(max_length = 250, null = False, default = None)
+  rut = models.CharField(max_length = 12, unique = True, null = False, default = None)
+  email = models.EmailField(max_length = 250, unique = True, null = False, default = None)
+  phone = models.CharField(max_length = 15, unique = True, null = False, default = None)
   company = models.ForeignKey(Companie, on_delete = models.CASCADE)
   date_init = models.DateField(default = date.today)
   age_job = models.IntegerField(default = None)
@@ -117,6 +117,7 @@ class Schedule(models.Model):
   bus = models.ForeignKey(Bussed, on_delete = models.CASCADE)
   company = models.ForeignKey(Companie, on_delete = models.CASCADE)
   sidewalks = models.ForeignKey(Platform, on_delete = models.CASCADE)
+  expirate_date = models.DateField(default = None)
 
 """
   Clase Reserva
@@ -128,3 +129,4 @@ class Reserve(models.Model):
   date =  models.DateField()
   cost = models.IntegerField()
   description = models.TextField()
+  expirate_date = models.DateField(default = None)
