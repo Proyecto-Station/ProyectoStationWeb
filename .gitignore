@@ -4,6 +4,7 @@
 /station/node_modules
 /station/.pnp
 station/.pnp.js
+/Service/Media
 
 # testing
 /station/coverage
