@@ -27,6 +27,9 @@ class Username(models.Model):
   permission = models.IntegerField(choices = GROUPS, null = False, default = 0)
   status = models.IntegerField(choices = SESSIONS, null = False, default = 0)
 
+  def __str__(self):
+    return self.name
+
 """
   Clase Empresas
 """

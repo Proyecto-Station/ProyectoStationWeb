@@ -1,11 +1,14 @@
-from datetime import date
-import json
-from django.http import JsonResponse
-from django.utils.decorators import method_decorator
-from django.views import View
-from django.views.decorators.csrf import csrf_exempt
-from .models import Username, Companie, Driver, CoDriver, Bussed, Platform, Origen, Destination, Schedule, Reserve
+from rest_framework import viewsets
 
+from .serializer import UsernameSerializer
+from .models import Username
+
+class UserViewSet(viewsets.ModelViewSet):
+  queryset = Username.objects.all()
+  serializer_class = UsernameSerializer
+
+
+"""
 class UsernameView(View):
   @method_decorator(csrf_exempt)
   def dispatch(self, request, *args, **kwargs):
@@ -717,3 +720,4 @@ class ReserveView(View):
   
   def delete(self, request, id):
     pass
+"""

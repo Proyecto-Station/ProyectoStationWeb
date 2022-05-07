@@ -1,8 +1,15 @@
-from django.urls import path
-from .views import UsernameView, CompanieView, DriverView, CoDriverView, BussedView, PlatformView, OrigenView
-from .views import DestinationView, ScheduleView, ReserveView
+from django.urls import include, path
+from rest_framework import routers
+from .views import UserViewSet
+
+router = routers.DefaultRouter()
+router.register('users', UserViewSet)
 
 urlpatterns = [
+  path('', include(router.urls)),
+]
+
+"""
   path('username/', UsernameView.as_view(), name='username_list'),
   path('username/<int:id>', UsernameView.as_view(), name='username_process'),
 
@@ -32,4 +39,4 @@ urlpatterns = [
   
   path('reserve/', ReserveView.as_view(), name='reserve_list'),
   path('reserve/<int:id>', ReserveView.as_view(), name='reserve_process'),
-]
+"""
