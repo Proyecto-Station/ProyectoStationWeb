@@ -2,16 +2,13 @@ import {
     Routes,
     Route,
 } from "react-router-dom";
-
-import Login from "./Auth/Login";
-import Home from "./pages/Home";
+import Home from './pages/Home';
 
 function App() {
 return(
     <div>
         <Routes>
-            <Route path='/' element={<Login />}/>
-            <Route path='/home' element={<Home />}/>
+            <Route path='/' element={<Home/>}/>
         </Routes>
     </div>
 )

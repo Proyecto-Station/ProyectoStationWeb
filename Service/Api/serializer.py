@@ -8,14 +8,9 @@ class UsernameSerializer(serializers.ModelSerializer):
     fields = '__all__'
   
   def create(self, validated_data):
-    hashPass = Username(**validated_data)
-    hashPass.password = validated_data.get('password')
-    hashPass.save()
+    new_user = Username(**validated_data)
+    new_user.password = make_password(validated_data.get('password'))
+    new_user.save()
     
-    return hashPass
-  
-  def update(self, instance, validated_data):
-    instance.password = validated_data.get('password')
-    instance.save()
+    return new_user
     
-    return instance
