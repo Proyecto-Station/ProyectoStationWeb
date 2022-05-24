@@ -2,7 +2,7 @@
   "name": "station-api",
   "version": "0.2.0",
   "description": "",
-  "author": "",
+  "author": "FantaCovid-19",
   "engines": {
     "node": "^16.14.2"
   },
