@@ -7,6 +7,8 @@ const companyRouter = require('./api/company/company.router')
 const bussedRouter = require('./api/bussed/bussed.router')
 const routeRouter = require('./api/route/route.router')
 const driverRouter = require('./api/driver/driver.router')
+const operatorRouter = require('./api/operator/operator.router')
+const scheduleRouter = require('./api/schedule/schedule.route')
 
 const app = express()
 
@@ -24,6 +26,8 @@ app.use('/api/company', companyRouter)
 app.use('/api/bussed', bussedRouter)
 app.use('/api/route', routeRouter)
 app.use('/api/driver', driverRouter)
+app.use('/api/operator', operatorRouter)
+app.use('/api/schedule', scheduleRouter)
 
 // Starting the server
 app.listen(app.get('port'), () => {
