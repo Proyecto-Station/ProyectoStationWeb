@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 
 import AuthService from '../../Services/Api/Auth.Service'
-import { withNavigate } from '../../Services/Controller/withNavigate'
 
 import {
   Grid,
@@ -192,4 +191,4 @@ class SignIn extends Component {
   }
 }
 
-export default withNavigate(SignIn)
+export default SignIn
