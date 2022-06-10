@@ -11,8 +11,6 @@ import {
   Button,
 } from '@mui/material'
 
-import { withNavigate } from '../Services/Controller/withNavigate'
-
 class NewSchedule extends Component {
   constructor(props) {
     super(props)
@@ -141,7 +139,7 @@ class NewSchedule extends Component {
       data.platform,
       data.cost
     ).then(() => {
-      this.props.navigate('/schedule')
+      this.props.navigate.push('/schedule')
       window.location.reload()
     })
   }
@@ -296,4 +294,4 @@ class NewSchedule extends Component {
   }
 }
 
-export default withNavigate(NewSchedule)
+export default NewSchedule
