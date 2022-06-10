@@ -42,15 +42,7 @@ function Report() {
   const [data, setData] = useState([])
 
   if (instance.loading) return <div>Loading ...</div>
-
-  useEffect(function fillData() {
-    ScheduleService.getAllSchedule().then((res) => {
-      const data = setData(res.data)
-
-      return data
-    })
-  })
-
+  
   return (
     <React.Fragment>
       <Button
