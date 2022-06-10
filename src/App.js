@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 
 import AuthService from './Services/Api/Auth.Service'
 import EventBus from './Services/Controller/EventBus'
@@ -65,13 +65,13 @@ class App extends Component {
           client={showClientBoard}
         />
 
-        <Routes>
+        <Switch>
           <Route exact path='/' element={<Index />} />
           <Route exact path='schedule' element={<Schedule />} />
           <Route exact path='report' element={<Report />} />
           <Route exact path='login' element={<SignIn />} />
           <Route exact path='newschedule' element={<NewSchedule />} />
-        </Routes>
+        </Switch>
       </React.Fragment>
     )
   }
