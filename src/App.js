@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Routes, Route, Link } from 'react-router-dom'
 
+import AuthService from './Services/Auth/Auth.Service'
+
 const App = () => {
   const [showAdminMenu, setShowAdminMenu] = useState(0)
   const [showClientMenu, setShowClientMenu] = useState(0)
