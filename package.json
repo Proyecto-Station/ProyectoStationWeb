@@ -9,6 +9,7 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@mui/material": "^5.8.3",
@@ -19,12 +20,23 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-router-dom": "^6.2.2"
+=======
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+>>>>>>> 3ab4fa53098411571c59f9c9f1f1f65547e85582
   },
   "devDependencies": {
     "react-scripts": "4.0.3"
   },
   "eslintConfig": {
+<<<<<<< HEAD
     "extends": "react-app"
+=======
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+>>>>>>> 3ab4fa53098411571c59f9c9f1f1f65547e85582
   },
   "browserslist": {
     "production": [
@@ -37,7 +49,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+<<<<<<< HEAD
   },
   "main": "index.js",
   "license": "MIT"
+=======
+  }
+>>>>>>> 3ab4fa53098411571c59f9c9f1f1f65547e85582
 }
