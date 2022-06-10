@@ -1,9 +1,9 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 export const withNavigate = (Component) => {
   const ComponentWithRouter = (props) => {
-    const navigate = useNavigate()
+    const navigate = useHistory()
 
     return <Component {...props} navigate={navigate} />
   }
