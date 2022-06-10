@@ -10,3 +10,5 @@ export const withNavigate = (Component) => {
 
   return ComponentWithRouter
 }
+
+  
