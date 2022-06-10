@@ -18,7 +18,6 @@ import {
 } from '@mui/icons-material'
 
 import ScheduleService from '../Services/Api/Schedule.Service'
-import { withNavigate } from '../Services/Controller/withNavigate'
 
 import { Style } from '../Themes/Theme.Private'
 
@@ -588,4 +587,4 @@ class Schedule extends Component {
   }
 }
 
-export default withNavigate(Schedule)
+export default Schedule
