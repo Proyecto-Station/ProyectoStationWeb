@@ -5,10 +5,11 @@ import AuthService from './Services/Auth/Auth.Service'
 import EventBus from './Services/Common/EventBus'
 
 import Home from './Components/Home'
+import Schedule from './Components/Schedule'
 
 const App = () => {
-  const [showAdminMenu, setShowAdminMenu] = useState(0)
-  const [showClientMenu, setShowClientMenu] = useState(0)
+  const [showAdminMenu, setShowAdminMenu] = useState(true)
+  const [showClientMenu, setShowClientMenu] = useState(true)
   const [currentUser, setCurrentUser] = useState(undefined)
 
   useEffect(() => {
@@ -45,15 +46,21 @@ const App = () => {
             <Link to={'/'}>Home</Link>
           </li>
 
-          {setShowClientMenu && (
+          {showClientMenu && (
             <li>
               <Link to={'/schedule'}>schedule</Link>
             </li>
           )}
 
-          {setShowAdminMenu && (
+          {showAdminMenu && (
             <li>
               <Link to={'/newuser'}>new user</Link>
+            </li>
+          )}
+
+          {currentUser && (
+            <li>
+              <Link to={'/user'}>new user</Link>
             </li>
           )}
         </nav>
@@ -62,6 +69,7 @@ const App = () => {
       <div>
         <Routes>
           <Route path='/' element={<Home />} />
+          <Route path='/schedule' element={<Schedule />} />
         </Routes>
       </div>
     </>
