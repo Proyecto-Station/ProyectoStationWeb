@@ -1,18 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import AuthService from '../Services/Auth/Auth.Service'
 
-import {
-  Box,
-  Grid,
-  InputAdornment,
-  Paper,
-  TextField,
-  Typography,
-  Button,
-} from '@mui/material'
+import { Box, Grid, InputAdornment, Paper, TextField, Typography, Button } from '@mui/material'
 import { Lock, AccountCircle } from '@mui/icons-material'
+
+import LayoutAlert from './Layout/Layout.Alert'
 
 const Home = () => {
   const navigate = useNavigate()
@@ -20,7 +14,13 @@ const Home = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
-  const [message, setMessage] = useState('')
+
+  useEffect(() => {
+    if (localStorage.getItem('data')) {
+      navigate('/schedule')
+      window.location.reload()
+    }
+  })
 
   /**
    * * Funcion Flechas onChange
@@ -40,24 +40,18 @@ const Home = () => {
    */
   const onClickLogin = (e) => {
     e.preventDefault()
-
-    setMessage('')
     setLoading(false)
 
-    AuthService.login(username, password).then(
-      () => {
+    AuthService.login(username, password).then((res) => {
+      const active = res.userData.is_active
+
+      if (active) {
         navigate('/schedule')
         window.location.reload()
-      },
-      (err) => {
-        const resMessage = 'message'
-
-        setLoading(true)
-        setMessage(resMessage)
-
-        console.log(err)
       }
-    )
+    }, () => {
+      setLoading(true)
+    })
   }
 
   return (
@@ -67,6 +61,12 @@ const Home = () => {
           <Box>
             <Typography>Login</Typography>
           </Box>
+
+          {loading && (
+            <Box>
+              <LayoutAlert type='error' msg='Invalid credentials' />
+            </Box>
+          )}
           <Box>
             <TextField
               label='Username'
