@@ -43,26 +43,12 @@ const App = () => {
       <div>
         <nav>
           <li>
-            <Link to={'/'}>Home</Link>
+            <Link to='/'>Home</Link>
           </li>
 
-          {showClientMenu && (
-            <li>
-              <Link to={'/schedule'}>schedule</Link>
-            </li>
-          )}
-
-          {showAdminMenu && (
-            <li>
-              <Link to={'/newuser'}>new user</Link>
-            </li>
-          )}
-
-          {currentUser && (
-            <li>
-              <Link to={'/user'}>new user</Link>
-            </li>
-          )}
+          <li>
+            <Link to='schedule'>schedule</Link>
+          </li>
         </nav>
       </div>
 
