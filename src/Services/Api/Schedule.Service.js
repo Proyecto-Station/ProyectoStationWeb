@@ -19,6 +19,12 @@ const getAllScheduleRoutes = async () => {
   })
 }
 
+const postSchedule = async (data) => {
+  return axios.post('schedule/', data, { headers: AuthHeader() }).then((res) => {
+    return console.log(res.data)
+  })
+}
+
 const patchSchedule = async (data) => {
   return axios.patch('schedule/', data, { headers: AuthHeader() }).then((res) => {
     return res.data
@@ -35,6 +41,7 @@ const ScheduleService = {
   getAllSchedule,
   getDetailsSchedule,
   getAllScheduleRoutes,
+  postSchedule,
   patchSchedule,
   deleteSchedule
 }

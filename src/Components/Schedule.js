@@ -26,9 +26,18 @@ const Schedule = () => {
   const [viewModal, setViewModal] = useState()
   const [editModal, setEditModal] = useState({})
   const [comboFill, setComboFill] = useState([])
+  const [newModal, setNewModal] = useState({
+    check_in: '',
+    check_out: '',
+    date: '',
+    route_id: '',
+    platform: '',
+    cost: ''
+  })
 
   const [openView, setOpenView] = useState(false)
   const [openEdit, setOpenEdit] = useState(false)
+  const [openNew, setOpenNew] = useState(false)
 
   const columns = [
     {
@@ -144,7 +153,10 @@ const Schedule = () => {
    */
   const ModalEdit = (e, id) => {
     e.preventDefault()
-    setViewModal('')
+
+    setComboFill([])
+    setViewModal({})
+    setOpenEdit(false)
 
     ScheduleService.getDetailsSchedule(id).then((res) => {
       setViewModal(res.data)
@@ -190,6 +202,40 @@ const Schedule = () => {
   }
 
   /**
+   * * Funciones del Modal New
+   */
+  const ModalNew = (e) => {
+    e.preventDefault()
+
+    setComboFill([])
+    setOpenNew(false)
+
+    ScheduleService.getAllScheduleRoutes().then((res) => {
+      setComboFill(res.data)
+      setOpenNew(true)
+    })
+  }
+
+  const onCloseModalNew = () => {
+    setOpenNew(false)
+  }
+
+  const onClickModalNew = (data) => {
+    ScheduleService.postSchedule(data).then(() => {
+      onReloadGrid()
+      setNewModal({
+        check_in: '',
+        check_out: '',
+        date: '',
+        route_id: '',
+        platform: '',
+        cost: ''
+      })
+      setOpenNew(false)
+    })
+  }
+
+  /**
    * * Recargar el Data Grid
    */
   const onReloadGrid = () => {
@@ -203,22 +249,42 @@ const Schedule = () => {
    */
   return (
     <>
-      <DataGrid
-        columns={columns}
-        rows={rows}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
-        disableSelectionOnClick
-        sx={{
-          height: 400,
-          width: '100%'
-        }}
-        initialState={{
-          sorting: {
-            sortModel: [{ field: 'id', sort: 'asc' }],
-          },
-        }}
-      />
+      <Grid
+        container
+        item
+        direction="row"
+        justifyContent="flex-end"
+        alignItems="center"
+      >
+        <Button
+          variant="outlined"
+          onClick={(e) => ModalNew(e)}
+          sx={{
+            mb: 2
+          }}
+        >
+          Nuevo Horario
+        </Button>
+      </Grid>
+
+      <>
+        <DataGrid
+          columns={columns}
+          rows={rows}
+          pageSize={5}
+          rowsPerPageOptions={[5]}
+          disableSelectionOnClick
+          sx={{
+            height: 400,
+            width: '100%'
+          }}
+          initialState={{
+            sorting: {
+              sortModel: [{ field: 'id', sort: 'asc' }],
+            },
+          }}
+        />
+      </>
 
       { viewModal && (
         <Modal
@@ -428,6 +494,128 @@ const Schedule = () => {
                 >
                   Editar
                 </Button>
+              </Grid>
+            </Grid>
+          </Box>
+        </Modal>
+      )}
+
+      { comboFill && (
+        <Modal
+        open={openNew}
+        onClose={onCloseModalNew}
+        >
+          <Box sx={Style}>
+            <Grid
+              container
+              direction='column'
+              justifyContent='center'
+              alignItems='center'
+            >
+              <Grid item>
+                <Typography variant='h6' sx={{mb: '15px'}} textAlign='center'>
+                  Registrar Nuevo Horario
+                </Typography>
+              </Grid>
+
+              <Grid item>
+                <TextField
+                  label='Hora de Salida:'
+                  helperText='Seleccione una hora de salida'
+                  type='time'
+                  variant='standard'
+                  required
+                  InputLabelProps={{ shrink: true }}
+                  sx={{ width: 250, mb: 2}}
+                  onChange={(e) => setNewModal({ ...newModal, check_in: e.target.value })}
+                />
+              </Grid>
+
+              <Grid item>
+                <TextField
+                  label='Hora de Llegada:'
+                  helperText='Seleccione una hora de llegada'
+                  type='time'
+                  variant='standard'
+                  required
+                  InputLabelProps={{ shrink: true }}
+                  sx={{ width: 250, mb: 2}}
+                  onChange={(e) => setNewModal({ ...newModal, check_out: e.target.value })}
+                />
+              </Grid>
+
+              <Grid item>
+                <TextField
+                  label='Fecha:'
+                  helperText='Seleccione una fecha'
+                  type='date'
+                  variant='standard'
+                  required
+                  InputLabelProps={{ shrink: true }}
+                  sx={{ width: 250, mb: 2}}
+                  onChange={(e) => setNewModal({ ...newModal, date: e.target.value })}
+                />
+              </Grid>
+
+              <Grid item>
+                <TextField
+                  label='Ruta:'
+                  helperText='Seleccione una ruta'
+                  variant='standard'
+                  select
+                  required
+                  value={newModal.route_id}
+                  sx={{ width: 250, mb: 2}}
+                  onChange={(e) => setNewModal({ ...newModal, route_id: e.target.value })}
+                >
+                  {comboFill.map((p, i) => (
+                    <MenuItem key={i} value={p.id}>
+                      {p.origen} - {p.destination}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Grid>
+
+              <Grid item>
+                <TextField
+                  label='Plataforma:'
+                  helperText='Escriba la plataforma'
+                  variant='standard'
+                  type='text'
+                  required
+                  sx={{ width: 250, mb: 2 }}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position='end'>
+                        <LocalParkingIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                  onChange={(e) => setNewModal({ ...newModal, platform: e.target.value })}
+                />
+              </Grid>
+
+              <Grid item>
+                <TextField
+                  label='Valor:'
+                  helperText='Escriba el Valor de los boletos'
+                  variant='standard'
+                  type='number'
+                  required
+                  sx={{ width: 250, mb: 2 }}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position='end'>
+                        <MonetizationOnIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                  onChange={(e) => setNewModal({ ...newModal, cost: e.target.value })}
+                />
+              </Grid>
+
+              <Grid item>
+                <Button onClick={() => onClickModalNew(newModal)}>Guardar</Button>
               </Grid>
             </Grid>
           </Box>
