@@ -53,9 +53,10 @@ const App = () => {
       </div>
 
       <div>
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/schedule' element={<Schedule />} />
+        <Routes basename='/'>
+          <Route exact path='/' element={<Home />} />
+          <Route exact path='/schedule' element={<Schedule />} />
+          <Route path='*' element={<h1>Page not Found</h1>} />
         </Routes>
       </div>
     </>

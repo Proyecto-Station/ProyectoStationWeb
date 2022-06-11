@@ -8,7 +8,22 @@
 // resources are updated in the background.
 
 // To learn more about the benefits of this model and instructions on how to
-// opt-in, read https://bit.ly/CRA-PWA
+// opt-in, read https://cra.link/PWA
+
+window.addEventListener('load', function () {
+  console.log('Registering service worker')
+  navigator.serviceWorker
+    .register('/sw.js')
+    .then(function (registration) {
+      console.log(
+        'ServiceWorker registration successful with scope:',
+        registration.scope
+      )
+    })
+    .catch(function (error) {
+      console.log('ServiceWorker registration failed:', error)
+    })
+})
 
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
@@ -43,7 +58,7 @@ export function register(config) {
         navigator.serviceWorker.ready.then(() => {
           console.log(
             'This web app is being served cache-first by a service ' +
-              'worker. To learn more, visit https://bit.ly/CRA-PWA'
+              'worker. To learn more, visit https://cra.link/PWA'
           )
         })
       } else {
@@ -71,7 +86,7 @@ function registerValidSW(swUrl, config) {
               // content until all client tabs are closed.
               console.log(
                 'New content is available and will be used when all ' +
-                  'tabs for this page are closed. See https://bit.ly/CRA-PWA.'
+                  'tabs for this page are closed. See https://cra.link/PWA.'
               )
 
               // Execute callback
