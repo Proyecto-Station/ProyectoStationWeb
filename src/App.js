@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Routes, Route, Link } from 'react-router-dom'
 
-import AuthService from './Services/Auth/Auth.Service'
+import AuthService from './Services/Api/Auth.Service'
 import EventBus from './Services/Common/EventBus'
 
 import Home from './Components/Home'
@@ -17,8 +17,8 @@ const App = () => {
 
     if (user) {
       setCurrentUser(user)
-      setShowClientMenu(user)
-      setShowAdminMenu(user)
+      setShowClientMenu(user.permission)
+      setShowAdminMenu(user.permission)
     }
 
     EventBus.on('logout', () => {
@@ -40,18 +40,6 @@ const App = () => {
 
   return (
     <>
-      <div>
-        <nav>
-          <li>
-            <Link to='/'>Home</Link>
-          </li>
-
-          <li>
-            <Link to='schedule'>schedule</Link>
-          </li>
-        </nav>
-      </div>
-
       <div>
         <Routes basename='/'>
           <Route exact path='/' element={<Home />} />

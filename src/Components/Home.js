@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import AuthService from '../Services/Auth/Auth.Service'
+import AuthService from '../Services/Api/Auth.Service'
 
 import { Box, Grid, InputAdornment, Paper, TextField, Typography, Button } from '@mui/material'
 import { Lock, AccountCircle } from '@mui/icons-material'
@@ -67,6 +67,7 @@ const Home = () => {
               <LayoutAlert type='error' msg='Invalid credentials' />
             </Box>
           )}
+
           <Box>
             <TextField
               label='Username'
