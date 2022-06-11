@@ -251,7 +251,6 @@ const Schedule = () => {
     <>
       <Grid
         container
-        item
         direction="row"
         justifyContent="flex-end"
         alignItems="center"
