@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { Box, IconButton, Modal, Typography, Grid, TextField, Button, InputAdornment } from '@mui/material'
+import { Box, IconButton, Modal, Typography, Grid, TextField, Button, InputAdornment, MenuItem } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 import { Edit as EditIcon, Delete as DeleteIcon, Visibility as VisibilityIcon, LocalParking as LocalParkingIcon, MonetizationOn as MonetizationOnIcon } from '@mui/icons-material'
 
@@ -25,6 +25,7 @@ const Schedule = () => {
   const [rows, setRows] = useState([])
   const [viewModal, setViewModal] = useState()
   const [editModal, setEditModal] = useState({})
+  const [comboFill, setComboFill] = useState([])
 
   const [openView, setOpenView] = useState(false)
   const [openEdit, setOpenEdit] = useState(false)
@@ -91,7 +92,7 @@ const Schedule = () => {
           <IconButton
             variant='contained'
             color='error'
-            onClick={(event) => this.onClickDeleteModal(event, params.id)}
+            onClick={(e) => onClickDelete(e, params.id)}
           >
             <DeleteIcon />
           </IconButton>
@@ -99,6 +100,27 @@ const Schedule = () => {
       ),
     }
   ]
+
+   /**
+   * * Estado al Cargar la pagina
+   */
+    useEffect(() => {
+      const data = JSON.parse(localStorage.getItem('data'))
+
+      if (!data) {
+        navigate('/')
+        window.location.reload()
+      } else {
+        if (!data.accessToken){
+          navigate('/')
+          window.location.reload()
+        }
+      }
+
+      ScheduleService.getAllSchedule().then((res) => {
+        setRows(res.data)
+      })
+    }, [navigate])
 
   /**
    * * Funciones del Modal View
@@ -132,9 +154,14 @@ const Schedule = () => {
         date: res.data.date.slice(0, 10),
         route_id: res.data.route_id,
         platform: res.data.platform,
-        cost: res.data.cost
+        cost: res.data.cost,
+        id: res.data.id,
       })
       setOpenEdit(true)
+    })
+
+    ScheduleService.getAllScheduleRoutes().then((res) => {
+      setComboFill(res.data)
     })
   }
 
@@ -142,26 +169,34 @@ const Schedule = () => {
     setOpenEdit(false)
   }
 
+  const onClickModalEdit = (data) => {
+    ScheduleService.patchSchedule(data).then(() => {
+      onReloadGrid()
+      onCloseModalEdit()
+    })
+  }
+
   /**
-   * * Estado al Cargar la pagina
+   * * Funcion de Eliminar
    */
-  useEffect(() => {
-    const data = JSON.parse(localStorage.getItem('data'))
+  const onClickDelete = (e, id) => {
+    e.preventDefault()
 
-    if (!data) {
-      navigate('/')
-      window.location.reload()
-    } else {
-      if (!data.accessToken){
-        navigate('/')
-        window.location.reload()
-      }
-    }
+    const data = JSON.stringify({ id: id })
 
+    ScheduleService.deleteSchedule(JSON.parse(data)).then(() => {
+      onReloadGrid()
+    })
+  }
+
+  /**
+   * * Recargar el Data Grid
+   */
+  const onReloadGrid = () => {
     ScheduleService.getAllSchedule().then((res) => {
       setRows(res.data)
     })
-  }, [navigate])
+  }
 
   /**
    * * Renderizado de la Pagina
@@ -191,11 +226,11 @@ const Schedule = () => {
           onClose={onCloseModalView}
         >
           <Box sx={Style}>
-            <Typography variant='h6' sx={{mb: '20px'}}>
-              [{viewModal.id}] Informacion de ruta {viewModal.origen} - {viewModal.destination}
-            </Typography>
-
             <Grid container spacing={2} columns={16}>
+              <Typography variant='h6' sx={{mb: '15px'}}>
+                [{viewModal.id}] Informacion de ruta {viewModal.origen} - {viewModal.destination}
+              </Typography>
+
               <Grid item xs={6}>
                 <Typography>Hora de Salida:</Typography>
               </Grid>
@@ -271,11 +306,11 @@ const Schedule = () => {
           onClose={onCloseModalEdit}
         >
           <Box sx={Style}>
-            <Typography variant='h6' sx={{mb: '20px'}}>
-              [{viewModal.id}] Editar Horario de ruta {viewModal.origen} - {viewModal.destination}
-            </Typography>
-
             <Grid container spacing={2} columns={16}>
+              <Typography variant='h6' sx={{mb: '15px'}}>
+                [{viewModal.id}] Editar Horario de ruta {viewModal.origen} - {viewModal.destination}
+              </Typography>
+
               <Grid item xs={6}>
                 <Typography sx={{pt: '4px', pb: '5px', height: '1.4375em'}}>Hora de Salida:</Typography>
               </Grid>
@@ -324,11 +359,18 @@ const Schedule = () => {
               <Grid item xs={8}>
                 <TextField
                   variant='standard'
-                  type='date'
-                  onChange={(e) => setEditModal({...editModal, date: e.target.value})}
+                  select
                   required
+                  value={editModal.route_id}
+                  onChange={(e) => setEditModal({...editModal, route_id: e.target.value})}
                   sx={{ width: 200 }}
-                />
+                >
+                  {comboFill.map((p, i) => (
+                    <MenuItem key={i} value={p.id}>
+                      {p.origen} - {p.destination}
+                    </MenuItem>
+                  ))}
+                </TextField>
               </Grid>
 
               <Grid item xs={6}>
@@ -373,7 +415,20 @@ const Schedule = () => {
                 />
               </Grid>
 
-              <Button onClick={() => {console.log(editModal)}}>Tocame</Button>
+              <Grid
+                container
+                item
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+              >
+                <Button
+                  variant="outlined"
+                  onClick={() => {onClickModalEdit(editModal)}}
+                >
+                  Editar
+                </Button>
+              </Grid>
             </Grid>
           </Box>
         </Modal>
