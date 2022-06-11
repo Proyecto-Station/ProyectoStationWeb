@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { Box, IconButton, Modal, Typography, Grid } from '@mui/material'
+import { Box, IconButton, Modal, Typography, Grid, TextField, Button, InputAdornment } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
-import { Edit as EditIcon, Delete as DeleteIcon, Visibility as VisibilityIcon } from '@mui/icons-material'
+import { Edit as EditIcon, Delete as DeleteIcon, Visibility as VisibilityIcon, LocalParking as LocalParkingIcon, MonetizationOn as MonetizationOnIcon } from '@mui/icons-material'
 
 import ScheduleService from '../Services/Api/Schedule.Service'
 
@@ -24,7 +24,7 @@ const Schedule = () => {
 
   const [rows, setRows] = useState([])
   const [viewModal, setViewModal] = useState()
-  const [editModal, setEditModal] = useState()
+  const [editModal, setEditModal] = useState({})
 
   const [openView, setOpenView] = useState(false)
   const [openEdit, setOpenEdit] = useState(false)
@@ -84,9 +84,7 @@ const Schedule = () => {
             variant='contained'
             color='warning'
             sx={{ ml: '20px', mr: '20px' }}
-            onClick={() => {
-              this.onEditModal(params.id)
-            }}
+            onClick={(e) => ModalEdit(e, params.id)}
           >
             <EditIcon />
           </IconButton>
@@ -122,12 +120,31 @@ const Schedule = () => {
   /**
    * * Funciones del Modal Edit
    */
-
   const ModalEdit = (e, id) => {
     e.preventDefault()
-    setEditModal('')
+    setViewModal('')
+
+    ScheduleService.getDetailsSchedule(id).then((res) => {
+      setViewModal(res.data)
+      setEditModal({
+        check_in: res.data.check_in.slice(0, 5),
+        check_out: res.data.check_out.slice(0, 5),
+        date: res.data.date.slice(0, 10),
+        route_id: res.data.route_id,
+        platform: res.data.platform,
+        cost: res.data.cost
+      })
+      setOpenEdit(true)
+    })
   }
 
+  const onCloseModalEdit = () => {
+    setOpenEdit(false)
+  }
+
+  /**
+   * * Estado al Cargar la pagina
+   */
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem('data'))
 
@@ -146,6 +163,9 @@ const Schedule = () => {
     })
   }, [navigate])
 
+  /**
+   * * Renderizado de la Pagina
+   */
   return (
     <>
       <DataGrid
@@ -165,14 +185,14 @@ const Schedule = () => {
         }}
       />
 
-      {viewModal && (
+      { viewModal && (
         <Modal
-        open={openView}
-        onClose={onCloseModalView}
+          open={openView}
+          onClose={onCloseModalView}
         >
           <Box sx={Style}>
-            <Typography variant='h6'>
-              Details Route {viewModal.origen} - {viewModal.destination}
+            <Typography variant='h6' sx={{mb: '20px'}}>
+              [{viewModal.id}] Informacion de ruta {viewModal.origen} - {viewModal.destination}
             </Typography>
 
             <Grid container spacing={2} columns={16}>
@@ -245,9 +265,117 @@ const Schedule = () => {
         </Modal>
       )}
 
-      {editModal && (
-        <Modal>
+      { viewModal && (
+        <Modal
+          open={openEdit}
+          onClose={onCloseModalEdit}
+        >
+          <Box sx={Style}>
+            <Typography variant='h6' sx={{mb: '20px'}}>
+              [{viewModal.id}] Editar Horario de ruta {viewModal.origen} - {viewModal.destination}
+            </Typography>
 
+            <Grid container spacing={2} columns={16}>
+              <Grid item xs={6}>
+                <Typography sx={{pt: '4px', pb: '5px', height: '1.4375em'}}>Hora de Salida:</Typography>
+              </Grid>
+              <Grid item xs={8}>
+                <TextField
+                  variant='standard'
+                  type='time'
+                  value={editModal.check_in}
+                  onChange={(e) => setEditModal({...editModal, check_in: e.target.value})}
+                  required
+                  sx={{ width: 200 }}
+                />
+              </Grid>
+
+              <Grid item xs={6}>
+                <Typography sx={{pt: '4px', pb: '5px', height: '1.4375em'}}>Hora de Llegada:</Typography>
+              </Grid>
+              <Grid item xs={8}>
+                <TextField
+                  variant='standard'
+                  type='time'
+                  value={editModal.check_out}
+                  onChange={(e) => setEditModal({...editModal, check_out: e.target.value})}
+                  required
+                  sx={{ width: 200 }}
+                />
+              </Grid>
+
+              <Grid item xs={6}>
+                <Typography sx={{pt: '4px', pb: '5px', height: '1.4375em'}}>Fecha:</Typography>
+              </Grid>
+              <Grid item xs={8}>
+                <TextField
+                  variant='standard'
+                  type='date'
+                  value={editModal.date}
+                  onChange={(e) => setEditModal({...editModal, date: e.target.value})}
+                  required
+                  sx={{ width: 200 }}
+                />
+              </Grid>
+
+              <Grid item xs={6}>
+                <Typography sx={{pt: '4px', pb: '5px', height: '1.4375em'}}>Ruta:</Typography>
+              </Grid>
+              <Grid item xs={8}>
+                <TextField
+                  variant='standard'
+                  type='date'
+                  onChange={(e) => setEditModal({...editModal, date: e.target.value})}
+                  required
+                  sx={{ width: 200 }}
+                />
+              </Grid>
+
+              <Grid item xs={6}>
+                <Typography sx={{pt: '4px', pb: '5px', height: '1.4375em'}}>Plataforma:</Typography>
+              </Grid>
+              <Grid item xs={8}>
+                <TextField
+                  variant='standard'
+                  type='text'
+                  value={editModal.platform}
+                  onChange={(e) => setEditModal({...editModal, platform: e.target.value})}
+                  required
+                  sx={{ width: 200 }}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position='end'>
+                        <LocalParkingIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </Grid>
+
+              <Grid item xs={6}>
+                <Typography sx={{pt: '4px', pb: '5px', height: '1.4375em'}}>Costo:</Typography>
+              </Grid>
+              <Grid item xs={8}>
+                <TextField
+                  variant='standard'
+                  type='number'
+                  value={editModal.cost}
+                  onChange={(e) => setEditModal({...editModal, cost: e.target.value})}
+                  required
+                  sx={{ width: 200 }}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position='end'>
+                        <MonetizationOnIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </Grid>
+
+              <Button onClick={() => {console.log(editModal)}}>Tocame</Button>
+            </Grid>
+          </Box>
         </Modal>
       )}
     </>
