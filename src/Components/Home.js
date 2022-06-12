@@ -3,17 +3,18 @@ import { useNavigate } from 'react-router-dom'
 
 import AuthService from '../Services/Api/Auth.Service'
 
-import { Box, Grid, InputAdornment, Paper, TextField, Typography, Button } from '@mui/material'
-import { Lock, AccountCircle } from '@mui/icons-material'
+import SignInForm from './Auth/SignInForm'
+import SignInError from './Auth/SignInError'
 
-import LayoutAlert from './Layout/Layout.Alert'
-
-const Home = () => {
-  const navigate = useNavigate()
-
+function Home() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState('')
+  const [type, setType] = useState('')
+  const [loginInError, setLoginInError] = useState(false)
+  const [open, setOpen] = useState(false)
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (localStorage.getItem('data')) {
@@ -23,24 +24,27 @@ const Home = () => {
   })
 
   /**
-   * * Funcion Flechas onChange
+   * * Funcion de Login In
    */
-  const onChangeUsername = (e) => {
-    const username = e.target.value
-    setUsername(username)
-  }
-
-  const onChangePassword = (e) => {
-    const password = e.target.value
-    setPassword(password)
-  }
-
-  /**
-   * * Funcion Flecha onClick
-   */
-  const onClickLogin = (e) => {
+  const onLoginIn = (e) => {
     e.preventDefault()
-    setLoading(false)
+    setLoginInError(false)
+
+    if (username === '') {
+      setOpen(true)
+      setType('error')
+      setLoginInError(true)
+      setMessage('Rellene los campos necesarios.')
+      return
+    }
+
+    if (password === '') {
+      setOpen(true)
+      setType('error')
+      setLoginInError(true)
+      setMessage('Rellene los campos necesarios.')
+      return
+    }
 
     AuthService.login(username, password).then((res) => {
       const active = res.userData.is_active
@@ -50,63 +54,36 @@ const Home = () => {
         window.location.reload()
       }
     }, () => {
-      setLoading(true)
+      setLoginInError(true)
     })
   }
 
   return (
     <>
-      <Grid container justifyContent={'center'} alignItems={'center'}>
-        <Paper>
-          <Box>
-            <Typography>Login</Typography>
-          </Box>
+      {loginInError && (
+        <div>
+          <SignInError
+            open={open}
+            message={message}
+            type={type}
+            handleChangeClose={ () => setOpen(false) }
+          />
+        </div>
+      )}
 
-          {loading && (
-            <Box>
-              <LayoutAlert type='error' msg='Invalid credentials' />
-            </Box>
-          )}
-
-          <Box>
-            <TextField
-              label='Username'
-              helperText='Nunca compartir tu nombre de usuario.'
-              variant='standard'
-              required
-              value={username}
-              onChange={onChangeUsername}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position='start'>
-                    <AccountCircle />
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </Box>
-          <Box>
-            <TextField
-              label='Password'
-              helperText='Nunca compartir tu nombre de contraseña.'
-              variant='standard'
-              required
-              value={password}
-              onChange={onChangePassword}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position='start'>
-                    <Lock />
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </Box>
-          <Box>
-            <Button onClick={onClickLogin}>Login In</Button>
-          </Box>
-        </Paper>
-      </Grid>
+      <div>
+        <SignInForm
+          username={username}
+          password={password}
+          handleChangeUsername={
+            ({target}) => setUsername(target.value)
+          }
+          handleChangePassword={
+            ({target}) => setPassword(target.value)
+          }
+          handleSubmit={onLoginIn}
+        />
+      </div>
     </>
   )
 }
