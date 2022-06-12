@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { Box, IconButton, Modal, Typography, Grid, TextField, Button, InputAdornment, MenuItem } from '@mui/material'
-import { Edit as EditIcon, Delete as DeleteIcon, Visibility as VisibilityIcon, LocalParking as LocalParkingIcon, MonetizationOn as MonetizationOnIcon } from '@mui/icons-material'
+import { Box, IconButton, Modal, Typography, Grid, Button, } from '@mui/material'
+import { Edit as EditIcon, Delete as DeleteIcon, Visibility as VisibilityIcon } from '@mui/icons-material'
 
 import ScheduleService from '../Services/Api/Schedule.Service'
 import TableRefill from './Utils/TableRefill'
@@ -283,7 +283,7 @@ function Schedule() {
    */
   return (
     <>
-      { openNotify && (
+      { openNotify && visible && (
         <div>
           <SnackbarInfo
             open={openNotify}
