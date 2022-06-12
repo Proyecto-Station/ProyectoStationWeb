@@ -2,8 +2,7 @@ import React from 'react'
 
 import { Snackbar, Slide, Alert, AlertTitle } from '@mui/material'
 
-function SignInError({open, message, type, handleChangeClose}) {
-
+function SnackbarInfo({ open, message, type, title, handelChangeNotify }) {
   const TransitionDown = (props) => {
     return <Slide {...props} direction='down' />
   }
@@ -12,7 +11,7 @@ function SignInError({open, message, type, handleChangeClose}) {
     <>
       <Snackbar
         open={open}
-        onClose={handleChangeClose}
+        onClose={handelChangeNotify}
         TransitionComponent={TransitionDown}
         autoHideDuration={3000}
         anchorOrigin={{
@@ -21,11 +20,11 @@ function SignInError({open, message, type, handleChangeClose}) {
         }}
       >
         <Alert
-          onClose={handleChangeClose}
+          onClose={handelChangeNotify}
           severity={type}
           sx={{ width: '100%' }}
         >
-          <AlertTitle>Error</AlertTitle>
+          <AlertTitle>{title}</AlertTitle>
           {message}
         </Alert>
       </Snackbar>
@@ -33,4 +32,4 @@ function SignInError({open, message, type, handleChangeClose}) {
   )
 }
 
-export default SignInError
+export default SnackbarInfo

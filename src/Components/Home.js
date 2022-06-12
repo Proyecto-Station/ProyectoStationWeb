@@ -60,7 +60,7 @@ function Home() {
 
   return (
     <>
-      {loginInError && (
+      { loginInError && (
         <div>
           <SignInError
             open={open}

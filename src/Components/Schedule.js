@@ -7,6 +7,8 @@ import { Edit as EditIcon, Delete as DeleteIcon, Visibility as VisibilityIcon, L
 import ScheduleService from '../Services/Api/Schedule.Service'
 import TableRefill from './Utils/TableRefill'
 import SchedulePostForm from './Other/SchedulePostForm'
+import SnackbarInfo from './Utils/SnackbarInfo'
+import ScheduleEditForm from './Other/ScheduleEditForm'
 
 const Style = {
   position: 'absolute',
@@ -26,8 +28,9 @@ function Schedule() {
   const [rows, setRows] = useState([])
 
   const [viewModal, setViewModal] = useState()
-  const [editModal, setEditModal] = useState({})
-  const [comboFill, setComboFill] = useState([])
+
+  const [openView, setOpenView] = useState(false)
+
   const [newModal, setNewModal] = useState({
     check_in: '',
     check_out: '',
@@ -36,10 +39,25 @@ function Schedule() {
     platform: '',
     cost: ''
   })
+  const [editModal, setEditModal] = useState({
+    id: '',
+    check_in: '',
+    check_out: '',
+    date: '',
+    route_id: '',
+    platform: '',
+    cost: ''
+  })
 
-  const [openView, setOpenView] = useState(false)
-  const [openEdit, setOpenEdit] = useState(false)
+  const [comboFill, setComboFill] = useState([])
+  const [message, setMessage] = useState('')
+  const [type, setType] = useState('')
+  const [title, setTitle] = useState('')
+  const [visible, setVisible] = useState(false)
+
   const [openNew, setOpenNew] = useState(false)
+  const [openEdit, setOpenEdit] = useState(false)
+  const [openNotify, setOpenNotify] = useState(false)
 
   const columns = [
     {
@@ -197,6 +215,12 @@ function Schedule() {
         cost: ''
       })
       setOpenEdit(false)
+
+      setVisible(true)
+      setOpenNotify(true)
+      setType('info')
+      setTitle('Modificado!!!')
+      setMessage('Horario Modificado Correctamente')
     })
   }
 
@@ -217,6 +241,12 @@ function Schedule() {
         cost: ''
       })
       setOpenNew(false)
+
+      setVisible(true)
+      setOpenNotify(true)
+      setType('info')
+      setTitle('Creado!!!')
+      setMessage('Horario Creado Correctamente')
     })
   }
 
@@ -230,6 +260,12 @@ function Schedule() {
 
     ScheduleService.deleteSchedule(JSON.parse(data)).then(() => {
       onReloadGrid()
+
+      setVisible(true)
+      setOpenNotify(true)
+      setType('success')
+      setTitle('Eliminado!!!')
+      setMessage('Horario Eliminado Correctamente')
     })
   }
 
@@ -247,6 +283,18 @@ function Schedule() {
    */
   return (
     <>
+      { openNotify && (
+        <div>
+          <SnackbarInfo
+            open={openNotify}
+            message={message}
+            title={title}
+            type={type}
+            handelChangeNotify={ () => setOpenNotify(false) }
+          />
+        </div>
+      )}
+
       <Grid container direction='row' justifyContent='flex-end' alignItems='center'>
         <Button variant='outlined' sx={{ mb: 2}} onClick={ () => setOpenNew(true) }>Nuevo Horario</Button>
       </Grid>
@@ -335,137 +383,20 @@ function Schedule() {
         </Modal>
       )}
 
-      { viewModal && (
-        <Modal
-          open={openEdit}
-        >
-          <Box sx={Style}>
-            <Grid container spacing={2} columns={16}>
-              <Typography variant='h6' sx={{mb: '15px'}}>
-                [{viewModal.id}] Editar Horario de ruta {viewModal.origen} - {viewModal.destination}
-              </Typography>
-
-              <Grid item xs={6}>
-                <Typography sx={{pt: '4px', pb: '5px', height: '1.4375em'}}>Hora de Salida:</Typography>
-              </Grid>
-              <Grid item xs={8}>
-                <TextField
-                  variant='standard'
-                  type='time'
-                  value={editModal.check_in}
-                  onChange={(e) => setEditModal({...editModal, check_in: e.target.value})}
-                  required
-                  sx={{ width: 200 }}
-                />
-              </Grid>
-
-              <Grid item xs={6}>
-                <Typography sx={{pt: '4px', pb: '5px', height: '1.4375em'}}>Hora de Llegada:</Typography>
-              </Grid>
-              <Grid item xs={8}>
-                <TextField
-                  variant='standard'
-                  type='time'
-                  value={editModal.check_out}
-                  onChange={(e) => setEditModal({...editModal, check_out: e.target.value})}
-                  required
-                  sx={{ width: 200 }}
-                />
-              </Grid>
-
-              <Grid item xs={6}>
-                <Typography sx={{pt: '4px', pb: '5px', height: '1.4375em'}}>Fecha:</Typography>
-              </Grid>
-              <Grid item xs={8}>
-                <TextField
-                  variant='standard'
-                  type='date'
-                  value={editModal.date}
-                  onChange={(e) => setEditModal({...editModal, date: e.target.value})}
-                  required
-                  sx={{ width: 200 }}
-                />
-              </Grid>
-
-              <Grid item xs={6}>
-                <Typography sx={{pt: '4px', pb: '5px', height: '1.4375em'}}>Ruta:</Typography>
-              </Grid>
-              <Grid item xs={8}>
-                <TextField
-                  variant='standard'
-                  select
-                  required
-                  value={editModal.route_id}
-                  onChange={(e) => setEditModal({...editModal, route_id: e.target.value})}
-                  sx={{ width: 200 }}
-                >
-                  {comboFill.map((p, i) => (
-                    <MenuItem key={i} value={p.id}>
-                      {p.origen} - {p.destination}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </Grid>
-
-              <Grid item xs={6}>
-                <Typography sx={{pt: '4px', pb: '5px', height: '1.4375em'}}>Plataforma:</Typography>
-              </Grid>
-              <Grid item xs={8}>
-                <TextField
-                  variant='standard'
-                  type='text'
-                  value={editModal.platform}
-                  onChange={(e) => setEditModal({...editModal, platform: e.target.value})}
-                  required
-                  sx={{ width: 200 }}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position='end'>
-                        <LocalParkingIcon />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </Grid>
-
-              <Grid item xs={6}>
-                <Typography sx={{pt: '4px', pb: '5px', height: '1.4375em'}}>Costo:</Typography>
-              </Grid>
-              <Grid item xs={8}>
-                <TextField
-                  variant='standard'
-                  type='number'
-                  value={editModal.cost}
-                  onChange={(e) => setEditModal({...editModal, cost: e.target.value})}
-                  required
-                  sx={{ width: 200 }}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position='end'>
-                        <MonetizationOnIcon />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </Grid>
-
-              <Grid
-                container
-                item
-                direction="row"
-                justifyContent="center"
-                alignItems="center"
-              >
-                <Button
-                  variant="outlined"
-                  onClick={() => {onClickModalEdit(editModal)}}
-                >
-                  Editar
-                </Button>
-              </Grid>
-            </Grid>
-          </Box>
-        </Modal>
+      { comboFill && openEdit && (
+        <ScheduleEditForm
+          openModal={openEdit}
+          data={editModal}
+          combo={comboFill}
+          onCloseModal={() => setOpenEdit(false)}
+          handleChangeCheckIn={ ({target}) => setEditModal({ ...editModal, check_in: target.value}) }
+          handleChangeCheckOut={ ({target}) => setEditModal({ ...editModal, check_out: target.value }) }
+          handleChangeDate={ ({target}) => setEditModal({ ...editModal, date: target.value }) }
+          handleChangeRouteId={ ({target}) => setEditModal({ ...editModal, route_id: target.value }) }
+          handleChangePlatform={ ({target}) => setEditModal({ ...editModal, platform: target.value }) }
+          handleChangeCost={ ({target}) => setEditModal({ ...editModal, cost: target.value }) }
+          onEditSchedule={onClickModalEdit}
+        />
       )}
 
       { comboFill && openNew && (
@@ -479,7 +410,7 @@ function Schedule() {
           handleChangeDate={ ({target}) => setNewModal({ ...newModal, date: target.value }) }
           handleChangeRouteId={ ({target}) => setNewModal({ ...newModal, route_id: target.value }) }
           handleChangePlatform={ ({target}) => setNewModal({ ...newModal, platform: target.value }) }
-          handleChangeCost={ ({target}) =>setNewModal({ ...newModal, cost: target.value }) }
+          handleChangeCost={ ({target}) => setNewModal({ ...newModal, cost: target.value }) }
           onPostSchedule={onClickModalNew}
         />
       )}

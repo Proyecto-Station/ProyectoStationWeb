@@ -20,14 +20,14 @@ const Style = {
   }
 }
 
-function SchedulePostForm({ openModal, onCloseModal, combo, handlePostModal, onPostSchedule, data, ...props}) {
+function ScheduleEditForm({ openModal, onCloseModal, onEditSchedule, combo, view, ...props }) {
   return (
     <>
       <Modal open={openModal} onClose={onCloseModal} >
-        <Grid container direction='column' justifyContent='center' alignItems='center'>
-          <Box component='form' noValidate autoComplete='off' onSubmit={onPostSchedule} sx={Style.modalSx} >
+        <Grid container direction='column' justifyContent='center' alignItems='center' >
+          <Box component='form' noValidate autoComplete='off' onSubmit={onEditSchedule} sx={Style.modalSx} >
             <div>
-              <Typography variant='h6'>Registrar un Nuevo Horario</Typography>
+              <Typography variant='h6'>[{view.id}] Editar Info {view.origen} - {view.destination}</Typography>
             </div>
             <div>
               <TextField
@@ -36,10 +36,10 @@ function SchedulePostForm({ openModal, onCloseModal, combo, handlePostModal, onP
                 variant='standard'
                 sx={Style.textFieldSx}
                 InputLabelProps={{ shrink: true }}
-                value={data.check_in}
+                value={view.check_in}
                 onChange={props.handleChangeCheckIn}
-                label='Hora de salida:'
-                helperText='Seleccione una hora de salida.'
+                label='Cambiar hora de salida:'
+                helperText='Seleccione una nueva hora de salida.'
               />
             </div>
             <div>
@@ -49,10 +49,10 @@ function SchedulePostForm({ openModal, onCloseModal, combo, handlePostModal, onP
                 variant='standard'
                 sx={Style.textFieldSx}
                 InputLabelProps={{ shrink: true }}
-                value={data.check_out}
+                value={view.check_in}
                 onChange={props.handleChangeCheckOut}
-                label='Hora de llegada:'
-                helperText='Seleccione una hora de llegada.'
+                label='Cambiar hora de llegada:'
+                helperText='Seleccione una nueva hora de llegada.'
               />
             </div>
             <div>
@@ -62,10 +62,10 @@ function SchedulePostForm({ openModal, onCloseModal, combo, handlePostModal, onP
                 variant='standard'
                 sx={Style.textFieldSx}
                 InputLabelProps={{ shrink: true }}
-                value={data.date}
+                value={view.date}
                 onChange={props.handleChangeDate}
-                label='Fecha:'
-                helperText='Seleccione una fecha.'
+                label='Cambiar Fecha:'
+                helperText='Seleccione una nueva fecha.'
               />
             </div>
             <div>
@@ -74,10 +74,10 @@ function SchedulePostForm({ openModal, onCloseModal, combo, handlePostModal, onP
                 required
                 variant='standard'
                 sx={Style.textFieldSx}
-                value={data.route_id}
+                value={view.route_id}
                 onChange={props.handleChangeRouteId}
-                label='Rutas:'
-                helperText='Seleccione una ruta.'
+                label='Cambiar Ruta:'
+                helperText='Seleccione una nueva ruta.'
               >
                 { combo.map((p, i) => (
                   <MenuItem key={i} value={p.id}>
@@ -92,10 +92,10 @@ function SchedulePostForm({ openModal, onCloseModal, combo, handlePostModal, onP
                 type='text'
                 variant='standard'
                 sx={Style.textFieldSx}
-                value={data.platform}
+                value={view.platform}
                 onChange={props.handleChangePlatform}
-                label='Plataforma:'
-                helperText='Especifica una plataforma.'
+                label='Cambiar Plataforma:'
+                helperText='Especifica una nueva plataforma.'
               />
             </div>
             <div>
@@ -104,14 +104,14 @@ function SchedulePostForm({ openModal, onCloseModal, combo, handlePostModal, onP
                 type='number'
                 variant='standard'
                 sx={Style.textFieldSx}
-                value={data.cost}
+                value={view.cost}
                 onChange={props.handleChangeCost}
-                label='Costo:'
-                helperText='Especifica el valor.'
+                label='Cambiar Costo:'
+                helperText='Especifica una nueva valor.'
               />
             </div>
             <div>
-              <Button type='submit'>Nuevo Horario</Button>
+              <Button type='submit'>Editar Horario</Button>
             </div>
           </Box>
         </Grid>
@@ -120,4 +120,4 @@ function SchedulePostForm({ openModal, onCloseModal, combo, handlePostModal, onP
   )
 }
 
-export default SchedulePostForm
+export default ScheduleEditForm

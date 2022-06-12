@@ -21,7 +21,7 @@ const getAllScheduleRoutes = async () => {
 
 const postSchedule = async (data) => {
   return axios.post('schedule/', data, { headers: AuthHeader() }).then((res) => {
-    return console.log(res.data)
+    return res.data
   })
 }
 
