@@ -5,18 +5,8 @@ import { Box, Button, Grid, TextField } from '@mui/material'
 function SignInForm({handleChangeUsername, username, handleChangePassword, password, handleSubmit}) {
   return (
     <>
-      <Grid
-        container
-        direction='column'
-        justifyContent='center'
-        alignItems='center'
-      >
-        <Box
-          component='form'
-          noValidate
-          autoComplete='off'
-          onSubmit={handleSubmit}
-        >
+      <Grid container direction='column' justifyContent='center' alignItems='center' >
+        <Box component='form' noValidate autoComplete='off' onSubmit={handleSubmit} >
           <div>
             <TextField
               label='Usuario:'
