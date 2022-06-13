@@ -1,45 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Routes, Route } from 'react-router-dom'
-
-import AuthService from './Services/Api/Auth.Service'
-import EventBus from './Services/Common/EventBus'
 
 import Home from './Components/Home'
 import Schedule from './Components/Schedule'
 
-const App = () => {
-  const [showAdminMenu, setShowAdminMenu] = useState(true)
-  const [showClientMenu, setShowClientMenu] = useState(true)
-  const [currentUser, setCurrentUser] = useState(undefined)
+import NavBarMenu from './Components/Utils/NavBarMenu'
 
-  useEffect(() => {
-    const user = AuthService.getCurrentUser()
-
-    if (user) {
-      setCurrentUser(user)
-      setShowClientMenu(user.permission)
-      setShowAdminMenu(user.permission)
-    }
-
-    EventBus.on('logout', () => {
-      logOut()
-    })
-
-    return () => {
-      EventBus.remove('logout')
-    }
-  }, [])
-
-  const logOut = () => {
-    AuthService.logout()
-
-    setCurrentUser(undefined)
-    setShowClientMenu(0)
-    setShowAdminMenu(0)
-  }
-
+function App() {
   return (
     <>
+      <NavBarMenu />
+
       <div>
         <Routes basename='/'>
           <Route exact path='/' element={<Home />} />

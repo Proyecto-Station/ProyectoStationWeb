@@ -1,11 +1,13 @@
 import React from 'react'
 
-import { Box, Button, Grid, TextField } from '@mui/material'
+import { Box, Button, Grid, TextField, Typography } from '@mui/material'
 
 function SignInForm({handleChangeUsername, username, handleChangePassword, password, handleSubmit}) {
   return (
     <>
       <Grid container direction='column' justifyContent='center' alignItems='center' >
+        <Typography variant='h5' sx={{mt: 5}}> Login Station </Typography>
+        <Box component='hr' width={250} />
         <Box component='form' noValidate autoComplete='off' onSubmit={handleSubmit} >
           <div>
             <TextField

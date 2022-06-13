@@ -6,6 +6,20 @@ import AuthService from '../Services/Api/Auth.Service'
 import SignInForm from './Auth/SignInForm'
 import SignInError from './Auth/SignInError'
 
+import { Box } from '@mui/material'
+
+const Style = {
+  diplay: 'block',
+  ml: 'auto',
+  mr: 'auto',
+  mt: '15%',
+  width: '300px',
+  height: '300px',
+  border: '1px solid #000',
+  borderRadius: 5,
+  background: 'white'
+}
+
 function Home() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -31,18 +45,18 @@ function Home() {
     setLoginInError(false)
 
     if (username === '') {
-      setOpen(true)
       setType('error')
-      setLoginInError(true)
       setMessage('Rellene los campos necesarios.')
+      setOpen(true)
+      setLoginInError(true)
       return
     }
 
     if (password === '') {
-      setOpen(true)
       setType('error')
-      setLoginInError(true)
       setMessage('Rellene los campos necesarios.')
+      setOpen(true)
+      setLoginInError(true)
       return
     }
 
@@ -53,7 +67,10 @@ function Home() {
         navigate('/schedule')
         window.location.reload()
       }
-    }, () => {
+    }, (err) => {
+      setType('error')
+      setMessage(err.response.data.message)
+      setOpen(true)
       setLoginInError(true)
     })
   }
@@ -71,7 +88,7 @@ function Home() {
         </div>
       )}
 
-      <div>
+      <Box sx={Style}>
         <SignInForm
           username={username}
           password={password}
@@ -83,7 +100,7 @@ function Home() {
           }
           handleSubmit={onLoginIn}
         />
-      </div>
+      </Box>
     </>
   )
 }

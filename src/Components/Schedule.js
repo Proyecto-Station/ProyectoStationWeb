@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { IconButton, Grid, Button, } from '@mui/material'
+import { IconButton, Grid, Button, Container, } from '@mui/material'
 import { Edit as EditIcon, Delete as DeleteIcon, Visibility as VisibilityIcon } from '@mui/icons-material'
 
 import ScheduleService from '../Services/Api/Schedule.Service'
@@ -274,13 +274,15 @@ function Schedule() {
         </div>
       )}
 
-      <Grid container direction='row' justifyContent='flex-end' alignItems='center'>
-        <Button variant='outlined' sx={{ mb: 2}} onClick={ () => setOpenNew(true) }>Nuevo Horario</Button>
-      </Grid>
+      <Container sx={{ mt: 10 }} minwidth='xs' maxWidth='xxl'>
+        <Grid container direction='row' justifyContent='flex-end' alignItems='center'>
+          <Button variant='outlined' sx={{ mb: 2}} onClick={ () => setOpenNew(true) }>Nuevo Horario</Button>
+        </Grid>
 
-      <div>
-        <TableRefill columns={columns} rows={rows} />
-      </div>
+        <div>
+          <TableRefill columns={columns} rows={rows} />
+        </div>
+      </Container>
 
       { openView &&  viewModal &&(
         <ScheduleViewForm
