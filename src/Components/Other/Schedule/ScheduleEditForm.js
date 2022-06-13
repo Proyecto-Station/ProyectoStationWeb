@@ -20,14 +20,14 @@ const Style = {
   }
 }
 
-function ScheduleEditForm({ openModal, onCloseModal, onEditSchedule, combo, view, ...props }) {
+function ScheduleEditForm({ openModal, onCloseModal, onEditSchedule, combo, data, ...props }) {
   return (
     <>
       <Modal open={openModal} onClose={onCloseModal} >
         <Grid container direction='column' justifyContent='center' alignItems='center' >
           <Box component='form' noValidate autoComplete='off' onSubmit={onEditSchedule} sx={Style.modalSx} >
             <div>
-              <Typography variant='h6'>[{view.id}] Editar Info {view.origen} - {view.destination}</Typography>
+              <Typography variant='h6'>[{data.id}] Editar Horario</Typography>
             </div>
             <div>
               <TextField
@@ -36,7 +36,7 @@ function ScheduleEditForm({ openModal, onCloseModal, onEditSchedule, combo, view
                 variant='standard'
                 sx={Style.textFieldSx}
                 InputLabelProps={{ shrink: true }}
-                value={view.check_in}
+                value={data.check_in}
                 onChange={props.handleChangeCheckIn}
                 label='Cambiar hora de salida:'
                 helperText='Seleccione una nueva hora de salida.'
@@ -49,7 +49,7 @@ function ScheduleEditForm({ openModal, onCloseModal, onEditSchedule, combo, view
                 variant='standard'
                 sx={Style.textFieldSx}
                 InputLabelProps={{ shrink: true }}
-                value={view.check_in}
+                value={data.check_in}
                 onChange={props.handleChangeCheckOut}
                 label='Cambiar hora de llegada:'
                 helperText='Seleccione una nueva hora de llegada.'
@@ -62,7 +62,7 @@ function ScheduleEditForm({ openModal, onCloseModal, onEditSchedule, combo, view
                 variant='standard'
                 sx={Style.textFieldSx}
                 InputLabelProps={{ shrink: true }}
-                value={view.date}
+                value={data.date}
                 onChange={props.handleChangeDate}
                 label='Cambiar Fecha:'
                 helperText='Seleccione una nueva fecha.'
@@ -74,7 +74,7 @@ function ScheduleEditForm({ openModal, onCloseModal, onEditSchedule, combo, view
                 required
                 variant='standard'
                 sx={Style.textFieldSx}
-                value={view.route_id}
+                value={data.route_id}
                 onChange={props.handleChangeRouteId}
                 label='Cambiar Ruta:'
                 helperText='Seleccione una nueva ruta.'
@@ -92,7 +92,7 @@ function ScheduleEditForm({ openModal, onCloseModal, onEditSchedule, combo, view
                 type='text'
                 variant='standard'
                 sx={Style.textFieldSx}
-                value={view.platform}
+                value={data.platform}
                 onChange={props.handleChangePlatform}
                 label='Cambiar Plataforma:'
                 helperText='Especifica una nueva plataforma.'
@@ -104,7 +104,7 @@ function ScheduleEditForm({ openModal, onCloseModal, onEditSchedule, combo, view
                 type='number'
                 variant='standard'
                 sx={Style.textFieldSx}
-                value={view.cost}
+                value={data.cost}
                 onChange={props.handleChangeCost}
                 label='Cambiar Costo:'
                 helperText='Especifica una nueva valor.'

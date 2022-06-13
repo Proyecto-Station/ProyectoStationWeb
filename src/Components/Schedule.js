@@ -1,35 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { Box, IconButton, Modal, Typography, Grid, Button, } from '@mui/material'
+import { IconButton, Grid, Button, } from '@mui/material'
 import { Edit as EditIcon, Delete as DeleteIcon, Visibility as VisibilityIcon } from '@mui/icons-material'
 
 import ScheduleService from '../Services/Api/Schedule.Service'
-import TableRefill from './Utils/TableRefill'
-import SchedulePostForm from './Other/SchedulePostForm'
-import SnackbarInfo from './Utils/SnackbarInfo'
-import ScheduleEditForm from './Other/ScheduleEditForm'
 
-const Style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4
-}
+import TableRefill from './Utils/TableRefill'
+import SnackbarInfo from './Utils/SnackbarInfo'
+
+import SchedulePostForm from './Other/Schedule/SchedulePostForm'
+import ScheduleEditForm from './Other/Schedule/ScheduleEditForm'
+import ScheduleViewForm from './Other/Schedule/ScheduleViewForm'
 
 function Schedule() {
   const navigate = useNavigate()
 
   const [rows, setRows] = useState([])
-
-  const [viewModal, setViewModal] = useState()
-
-  const [openView, setOpenView] = useState(false)
 
   const [newModal, setNewModal] = useState({
     check_in: '',
@@ -48,6 +35,7 @@ function Schedule() {
     platform: '',
     cost: ''
   })
+  const [viewModal, setViewModal] = useState()
 
   const [comboFill, setComboFill] = useState([])
   const [message, setMessage] = useState('')
@@ -57,6 +45,7 @@ function Schedule() {
 
   const [openNew, setOpenNew] = useState(false)
   const [openEdit, setOpenEdit] = useState(false)
+  const [openView, setOpenView] = useState(false)
   const [openNotify, setOpenNotify] = useState(false)
 
   const columns = [
@@ -130,30 +119,30 @@ function Schedule() {
     }
   ]
 
-   /**
+  /**
    * * Estado al Cargar la pagina
    */
-    useEffect(() => {
-      const data = JSON.parse(localStorage.getItem('data'))
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem('data'))
 
-      if (!data) {
+    if (!data) {
+      navigate('/')
+      window.location.reload()
+    } else {
+      if (!data.accessToken){
         navigate('/')
         window.location.reload()
-      } else {
-        if (!data.accessToken){
-          navigate('/')
-          window.location.reload()
-        }
       }
+    }
 
-      ScheduleService.getAllSchedule().then((res) => {
-        setRows(res.data)
-      })
+    ScheduleService.getAllSchedule().then((res) => {
+      setRows(res.data)
+    })
 
-      ScheduleService.getAllScheduleRoutes().then((res) => {
-        setComboFill(res.data)
-      })
-    }, [navigate])
+    ScheduleService.getAllScheduleRoutes().then((res) => {
+      setComboFill(res.data)
+    })
+  }, [navigate])
 
   /**
    * * Funciones del Modal View
@@ -168,35 +157,25 @@ function Schedule() {
     })
   }
 
-  const onCloseModalView = () => {
-    setOpenView(false)
-  }
-
   /**
    * * Funciones de Editar
    */
   const ModalEdit = (e, id) => {
     e.preventDefault()
 
-    setViewModal({})
     setOpenEdit(false)
-
     ScheduleService.getDetailsSchedule(id).then((res) => {
-      setViewModal(res.data)
       setEditModal({
+        id: id,
         check_in: res.data.check_in.slice(0, 5),
         check_out: res.data.check_out.slice(0, 5),
         date: res.data.date.slice(0, 10),
         route_id: res.data.route_id,
         platform: res.data.platform,
         cost: res.data.cost,
-        id: res.data.id,
       })
-      setOpenEdit(true)
-    })
 
-    ScheduleService.getAllScheduleRoutes().then((res) => {
-      setComboFill(res.data)
+      setOpenEdit(true)
     })
   }
 
@@ -216,11 +195,11 @@ function Schedule() {
       })
       setOpenEdit(false)
 
-      setVisible(true)
-      setOpenNotify(true)
       setType('info')
       setTitle('Modificado!!!')
       setMessage('Horario Modificado Correctamente')
+      setVisible(true)
+      setOpenNotify(true)
     })
   }
 
@@ -242,11 +221,11 @@ function Schedule() {
       })
       setOpenNew(false)
 
-      setVisible(true)
-      setOpenNotify(true)
       setType('info')
       setTitle('Creado!!!')
       setMessage('Horario Creado Correctamente')
+      setVisible(true)
+      setOpenNotify(true)
     })
   }
 
@@ -261,11 +240,11 @@ function Schedule() {
     ScheduleService.deleteSchedule(JSON.parse(data)).then(() => {
       onReloadGrid()
 
-      setVisible(true)
-      setOpenNotify(true)
       setType('success')
       setTitle('Eliminado!!!')
       setMessage('Horario Eliminado Correctamente')
+      setVisible(true)
+      setOpenNotify(true)
     })
   }
 
@@ -303,84 +282,12 @@ function Schedule() {
         <TableRefill columns={columns} rows={rows} />
       </div>
 
-      { viewModal && (
-        <Modal
-          open={openView}
-          onClose={onCloseModalView}
-        >
-          <Box sx={Style}>
-            <Grid container spacing={2} columns={16}>
-              <Typography variant='h6' sx={{mb: '15px'}}>
-                [{viewModal.id}] Informacion de ruta {viewModal.origen} - {viewModal.destination}
-              </Typography>
-
-              <Grid item xs={6}>
-                <Typography>Hora de Salida:</Typography>
-              </Grid>
-              <Grid item xs={8}>
-                <Typography>{viewModal.check_in.slice(0, 5)}</Typography>
-              </Grid>
-
-              <Grid item xs={6}>
-                <Typography>Hora de Llegada:</Typography>
-              </Grid>
-              <Grid item xs={8}>
-                <Typography>{viewModal.check_out.slice(0, 5)}</Typography>
-              </Grid>
-
-              <Grid item xs={6}>
-                <Typography>Fecha:</Typography>
-              </Grid>
-              <Grid item xs={8}>
-                <Typography>{viewModal.date.slice(0, 10)}</Typography>
-              </Grid>
-
-              <Grid item xs={6}>
-                <Typography>Origen:</Typography>
-              </Grid>
-              <Grid item xs={8}>
-                <Typography>{viewModal.origen}</Typography>
-              </Grid>
-
-              <Grid item xs={6}>
-                <Typography>Destino:</Typography>
-              </Grid>
-              <Grid item xs={8}>
-                <Typography>{viewModal.destination}</Typography>
-              </Grid>
-
-              <Grid item xs={6}>
-                <Typography>Plataforma:</Typography>
-              </Grid>
-              <Grid item xs={8}>
-                <Typography>{viewModal.platform}</Typography>
-              </Grid>
-
-              <Grid item xs={6}>
-                <Typography>Valor:</Typography>
-              </Grid>
-              <Grid item xs={8}>
-                <Typography>${viewModal.cost}</Typography>
-              </Grid>
-
-              <Grid item xs={6}>
-                <Typography>Empresa:</Typography>
-              </Grid>
-              <Grid item xs={8}>
-                <Typography>{viewModal.company_name}</Typography>
-              </Grid>
-
-              <Grid item xs={6}>
-                <Typography>Paradas:</Typography>
-              </Grid>
-              <Grid item xs={8}>
-                {viewModal.stops.map((p, i) => (
-                  <Typography component='li' key={i}>{p.route}</Typography>
-                ))}
-              </Grid>
-            </Grid>
-          </Box>
-        </Modal>
+      { openView &&  viewModal &&(
+        <ScheduleViewForm
+          openModal={openView}
+          data={viewModal}
+          onCloseModal={() => setOpenView(false)}
+        />
       )}
 
       { comboFill && openEdit && (
