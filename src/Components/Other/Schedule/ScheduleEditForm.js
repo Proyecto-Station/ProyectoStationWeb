@@ -112,6 +112,7 @@ function ScheduleEditForm({ openModal, onCloseModal, onEditSchedule, combo, data
             </div>
             <div>
               <Button type='submit'>Editar Horario</Button>
+              <Button onClick={onCloseModal}>Salir</Button>
             </div>
           </Box>
         </Grid>
