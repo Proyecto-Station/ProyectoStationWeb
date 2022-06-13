@@ -9,21 +9,8 @@ function SnackbarInfo({ open, message, type, title, handelChangeNotify }) {
 
   return (
     <>
-      <Snackbar
-        open={open}
-        onClose={handelChangeNotify}
-        TransitionComponent={TransitionDown}
-        autoHideDuration={3000}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'center'
-        }}
-      >
-        <Alert
-          onClose={handelChangeNotify}
-          severity={type}
-          sx={{ width: '100%' }}
-        >
+      <Snackbar open={open}  onClose={handelChangeNotify} TransitionComponent={TransitionDown} autoHideDuration={3000} anchorOrigin={{ vertical: 'top', horizontal: 'center' }} >
+        <Alert onClose={handelChangeNotify} severity={type} sx={{ width: '100%' }} >
           <AlertTitle>{title}</AlertTitle>
           {message}
         </Alert>
