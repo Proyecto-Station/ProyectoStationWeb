@@ -16,6 +16,19 @@ const Style = {
     color: 'inherit',
     textDecoration: 'none'
   },
+  textTitleMovil: {
+    mr: 2,
+    display: {
+      xs: 'flex',
+      md: 'none'
+    },
+    flexGrow: 1,
+    fontFamily: 'monospace',
+    fontWeight: 700,
+    letterSpacing: '.3rem',
+    color: 'inherit',
+    textDecoration: 'none',
+  },
   textTitleWebNoData: {
     mr: 'auto',
     ml: 'auto',
@@ -29,13 +42,13 @@ const Style = {
     color: 'inherit',
     textDecoration: 'none'
   },
-  textTitleMovil: {
-    mr: 2,
+  textTitleMovilNoData: {
+    mr: 'auto',
+    ml: 'auto',
     display: {
-      xs: 'flex',
+      xs: 'block',
       md: 'none'
     },
-    flexGrow: 1,
     fontFamily: 'monospace',
     fontWeight: 700,
     letterSpacing: '.3rem',
@@ -201,7 +214,7 @@ function NavBarMenu() {
           <Toolbar>
             <Typography variant='h6' noWrap component='a' href='/' sx={Style.textTitleWebNoData}>STATION</Typography>
 
-            <Typography variant='h6' noWrap component='a' href='/' sx={Style.textTitleMovil}>STATION</Typography>
+            <Typography variant='h6' noWrap component='a' href='/' sx={Style.textTitleMovilNoData}>STATION</Typography>
           </Toolbar>
         </Container>
       </AppBar>
