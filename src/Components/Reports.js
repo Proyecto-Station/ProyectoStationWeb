@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-import { Button } from '@mui/material';
+import { Button, Container } from '@mui/material';
 
 import jsPDF from 'jspdf';
 import 'jspdf-autotable'
@@ -33,9 +33,12 @@ const generatePDF = () => {
 }
 
 function Reports() {
+
   return (
     <>
-    <Button sx={{ mt: 10 }} onClick={generatePDF}>print</Button>
+      <Container sx={{ mt: 10 }} minwidth='xs' maxWidth='xl'>
+        <Button onClick={generatePDF}>print</Button>
+      </Container>
     </>
   )
 }
