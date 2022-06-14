@@ -16,7 +16,7 @@ const generatePDF = () => {
     { id: 'Hospital Name', name: 'Dr Abcd' }
   ]
 
-  const data = itemNew.map(elt=> [elt.id, elt.name])
+  const data = itemNew.map((elt) => [elt.id, elt.name])
 
   let content = {
     head: headers,

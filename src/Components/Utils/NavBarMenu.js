@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
-import { AppBar, Toolbar, Container, Typography, Box, IconButton, Menu, MenuItem, Button } from '@mui/material'
-import { Menu as MenuIcon } from '@mui/icons-material'
+import { AppBar, Toolbar, Container, Typography, Box, IconButton, Menu, MenuItem, Button, Tooltip } from '@mui/material'
+import { Menu as MenuIcon, AccountCircle } from '@mui/icons-material'
 
 const Style = {
   textTitleWeb: {
@@ -107,6 +107,7 @@ const pages = {
 function NavBarMenu() {
 
   const [anchorElNav, setAnchorElNav] = useState(null)
+  const [anchorElUser, setAnchorElUser] = useState(null)
   const data = JSON.parse(localStorage.getItem('data'))
 
   return (
@@ -168,6 +169,27 @@ function NavBarMenu() {
                 ))}
               </Box>
             )}
+
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title='Opciones'>
+                <IconButton onClick={(e) => setAnchorElUser(e.currentTarget)} sx={{ p: 0, color: 'inherit' }}>
+                  <AccountCircle />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: '45px' }}
+                anchorEl={anchorElUser}
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                keepMounted
+                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                open={Boolean(anchorElUser)}
+                onClose={() => setAnchorElUser(null)}
+              >
+                <MenuItem onClick={() => setAnchorElUser(null)}>
+                  <Typography textalign='center'>Hola</Typography>
+                </MenuItem>
+              </Menu>
+            </Box>
           </Toolbar>
         </Container>
       </AppBar>
