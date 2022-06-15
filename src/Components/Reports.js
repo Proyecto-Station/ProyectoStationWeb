@@ -1,11 +1,7 @@
 import React, { useState } from 'react'
 import { Button, Container, Grid, Card, CardMedia, CardContent, Typography, Select, MenuItem } from '@mui/material';
 
-<<<<<<< HEAD
-import { Button, Container } from '@mui/material';
-=======
 import { usePDF } from '../Hooks/usePDF';
->>>>>>> working
 
 function Reports() {
   const { reportAllData, reportFifteenDays, reportThirthyDays } = usePDF()
@@ -19,23 +15,6 @@ function Reports() {
     tirthy: () => reportThirthyDays()
   }
 
-<<<<<<< HEAD
-  doc.text(20, 20, 'This is the first title.')
-  doc.text(20, 60, 'This is the second title.')
-  doc.text(20, 100, 'This is the thrid title.')
-
-  doc.autoTable(content);
-
-  doc.save('demo.pdf')
-}
-
-function Reports() {
-
-  return (
-    <>
-      <Container sx={{ mt: 10 }} minwidth='xs' maxWidth='xl'>
-        <Button onClick={generatePDF}>print</Button>
-=======
   return (
     <>
       <Container sx={{ mt: 10 }} minwidth='xs' maxWidth='xxl'>
@@ -92,7 +71,6 @@ function Reports() {
             </Card>
           </Grid>
         </Grid>
->>>>>>> working
       </Container>
     </>
   )
