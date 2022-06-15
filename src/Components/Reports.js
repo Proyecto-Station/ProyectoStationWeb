@@ -4,13 +4,15 @@ import { Button, Container, Grid, Card, CardMedia, CardContent, Typography, Sele
 import { usePDF } from '../Hooks/usePDF';
 
 function Reports() {
-  const { reportAllData } = usePDF()
+  const { reportAllData, reportFifteenDays, reportThirthyDays } = usePDF()
 
   const [select, setSelect] = useState('')
   const [value, setValue] = useState(false)
 
   const SelectSchedule = {
-    all: () => reportAllData()
+    all: () => reportAllData(),
+    fifteen: () => reportFifteenDays(),
+    tirthy: () => reportThirthyDays()
   }
 
   return (
@@ -29,7 +31,7 @@ function Reports() {
                 <Typography gutterBottom variant='h6' component="div">Reportes de Horarios</Typography>
                 <Typography variant='body2'>
                   Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  <Button onClick={() => reportAllData()} sx={{display: 'block', ml: 'auto', mr: 'auto', mt: 2}} variant='outlined'>Click</Button>
+                  <Button onClick={() => reportThirthyDays()} sx={{display: 'block', ml: 'auto', mr: 'auto', mt: 2}} variant='outlined'>Click</Button>
                 </Typography>
               </CardContent>
             </Card>
@@ -51,11 +53,13 @@ function Reports() {
                 <div>
                   <Select
                     value={select}
-                    onChange={({target}) => {setSelect(target.value); setValue(true)}}
+                    onChange={({target}) => { setSelect(target.value); setValue(true) }}
                     variant='standard'
                     sx={{ minWidth: 200, display: 'block', ml: 'auto', mr: 'auto', mt: 2 }}
                   >
                     <MenuItem value={'all'}>All</MenuItem>
+                    <MenuItem value={'fifteen'}>All</MenuItem>
+                    <MenuItem value={'tirthy'}>All</MenuItem>
                   </Select>
                 </div>
                 { value ? (
