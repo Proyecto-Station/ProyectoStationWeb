@@ -1,7 +1,8 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 
-import Home from './Components/Home'
+import Home from './Pages/Home'
+
 import Schedule from './Components/Schedule'
 import Reports from './Components/Reports'
 
