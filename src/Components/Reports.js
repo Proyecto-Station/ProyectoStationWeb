@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { Button, Container, Grid, Card, CardMedia, CardContent, Typography, Select, MenuItem } from '@mui/material';
+import { Button, Container, Grid, Card, CardMedia, CardContent, Typography, Select, MenuItem } from '@mui/material'
 
-import { usePDF } from '../Hooks/usePDF';
+import { usePDF } from '../Hooks/usePDF'
 
 function Reports() {
   const { reportAllData, reportFifteenDays, reportThirthyDays } = usePDF()
@@ -57,11 +57,12 @@ function Reports() {
                     variant='standard'
                     sx={{ minWidth: 200, display: 'block', ml: 'auto', mr: 'auto', mt: 2 }}
                   >
-                    <MenuItem value={'all'}>All</MenuItem>
-                    <MenuItem value={'fifteen'}>All</MenuItem>
-                    <MenuItem value={'tirthy'}>All</MenuItem>
+                    <MenuItem value={'all'}>Todos</MenuItem>
+                    <MenuItem value={'fifteen'}>15 Dias</MenuItem>
+                    <MenuItem value={'tirthy'}>30 Dias</MenuItem>
                   </Select>
                 </div>
+
                 { value ? (
                   <Button variant='outlined' sx={{ display: 'block', ml: 'auto', mr: 'auto', mt: 2 }} onClick={SelectSchedule[select]}>tocame</Button>
                 ) : (
