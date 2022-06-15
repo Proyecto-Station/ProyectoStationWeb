@@ -1,41 +1,73 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
+import { Button, Container, Grid, Card, CardMedia, CardContent, Typography, Select, MenuItem } from '@mui/material';
 
-import { Button } from '@mui/material';
-
-import jsPDF from 'jspdf';
-import 'jspdf-autotable'
-
-const generatePDF = () => {
-  var doc = new jsPDF('p', 'pt');
-
-  const headers = [["NAME", "PROFESSION"]]
-
-  var itemNew = [
-    { id: 'Case Number', name : '101111111' },
-    { id: 'Patient Name', name : 'UAT DR' },
-    { id: 'Hospital Name', name: 'Dr Abcd' }
-  ]
-
-  const data = itemNew.map((elt) => [elt.id, elt.name])
-
-  let content = {
-    head: headers,
-    body: data
-  }
-
-  doc.text(20, 20, 'This is the first title.')
-  doc.text(20, 60, 'This is the second title.')
-  doc.text(20, 100, 'This is the thrid title.')
-
-  doc.autoTable(content);
-
-  doc.save('demo.pdf')
-}
+import { usePDF } from '../Hooks/usePDF';
 
 function Reports() {
+  const { reportAllData } = usePDF()
+
+  const [select, setSelect] = useState('')
+  const [value, setValue] = useState(false)
+
+  const SelectSchedule = {
+    all: () => reportAllData()
+  }
+
   return (
     <>
-    <Button sx={{ mt: 10 }} onClick={generatePDF}>print</Button>
+      <Container sx={{ mt: 10 }} minwidth='xs' maxWidth='xxl'>
+        <Grid container spacing={2}>
+          <Grid item>
+            <Card sx={{ maxWidth: 245 }}>
+              <CardMedia
+                component='img'
+                alt='img'
+                height='140'
+                image='https://www.alstom.com/sites/alstom.com/files/2019/05/16/Bus%20Electrico51.jpg'
+              />
+              <CardContent>
+                <Typography gutterBottom variant='h6' component="div">Reportes de Horarios</Typography>
+                <Typography variant='body2'>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  <Button onClick={() => reportAllData()} sx={{display: 'block', ml: 'auto', mr: 'auto', mt: 2}} variant='outlined'>Click</Button>
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item>
+            <Card sx={{ maxWidth: 245 }}>
+              <CardMedia
+                component='img'
+                alt='img'
+                height='140'
+                image='https://www.alstom.com/sites/alstom.com/files/2019/05/16/Bus%20Electrico51.jpg'
+              />
+              <CardContent>
+                <Typography gutterBottom variant='h6' component="div">Reportes de Horarios</Typography>
+                <Typography variant='body2'>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                </Typography>
+
+                <div>
+                  <Select
+                    value={select}
+                    onChange={({target}) => {setSelect(target.value); setValue(true)}}
+                    variant='standard'
+                    sx={{ minWidth: 200, display: 'block', ml: 'auto', mr: 'auto', mt: 2 }}
+                  >
+                    <MenuItem value={'all'}>All</MenuItem>
+                  </Select>
+                </div>
+                { value ? (
+                  <Button variant='outlined' sx={{ display: 'block', ml: 'auto', mr: 'auto', mt: 2 }} onClick={SelectSchedule[select]}>tocame</Button>
+                ) : (
+                  <Button variant='outlined' sx={{ display: 'block', ml: 'auto', mr: 'auto', mt: 2 }} disabled>tocame</Button>
+                )}
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
+      </Container>
     </>
   )
 }
