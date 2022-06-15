@@ -10,18 +10,8 @@ const login = (username, password) => {
   })
 }
 
-const logout = () => {
-  localStorage.removeItem('data')
-}
-
-const getCurrentUser = () => {
-  return JSON.parse(localStorage.getItem('user'))
-}
-
 const AuthService = {
-  login,
-  logout,
-  getCurrentUser,
+  login
 }
 
 export default AuthService
