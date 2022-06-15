@@ -21,8 +21,8 @@ const Style = {
 }
 
 function Home() {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const [username, setUsername] = useState()
+  const [password, setPassword] = useState()
   const [message, setMessage] = useState('')
   const [type, setType] = useState('')
   const [loginInError, setLoginInError] = useState(false)
