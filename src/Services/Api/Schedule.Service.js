@@ -37,10 +37,17 @@ const deleteSchedule = async (id) => {
   })
 }
 
+const getDataFifteenDays = async (data) => {
+  return axios.post('schedule/filter/all', data, { headers: AuthHeader() }).then((res) => {
+    return res.data
+  })
+}
+
 const ScheduleService = {
   getAllSchedule,
   getDetailsSchedule,
   getAllScheduleRoutes,
+  getDataFifteenDays,
   postSchedule,
   patchSchedule,
   deleteSchedule
