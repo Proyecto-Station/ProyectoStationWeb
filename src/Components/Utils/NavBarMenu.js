@@ -3,6 +3,8 @@ import React, { useState } from 'react'
 import { AppBar, Toolbar, Container, Typography, Box, IconButton, Menu, MenuItem, Button, Tooltip } from '@mui/material'
 import { Menu as MenuIcon, AccountCircle } from '@mui/icons-material'
 
+import { useUser } from '../../Hooks/useUser'
+
 const Style = {
   textTitleWeb: {
     mr: 2,
@@ -118,10 +120,11 @@ const pages = {
 }
 
 function NavBarMenu() {
-
   const [anchorElNav, setAnchorElNav] = useState(null)
   const [anchorElUser, setAnchorElUser] = useState(null)
   const data = JSON.parse(localStorage.getItem('data'))
+
+  const user = useUser()
 
   return (
     <>
@@ -199,7 +202,7 @@ function NavBarMenu() {
                 onClose={() => setAnchorElUser(null)}
               >
                 <MenuItem onClick={() => setAnchorElUser(null)}>
-                  <Typography textalign='center'>Hola</Typography>
+                  <Typography textalign='center' onClick={() => user.logOut()}>Logout</Typography>
                 </MenuItem>
               </Menu>
             </Box>

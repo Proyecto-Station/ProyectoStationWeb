@@ -14,10 +14,25 @@ export function useUser() {
 
   const logOut = () => {
     localStorage.removeItem('data')
+    navigate('/')
   }
 
   const getUser = () => {
-    const user = localStorage.getItem('data')
+    const user = JSON.parse(localStorage.getItem('data'))
+
+    if (user) {
+      if (typeof user === 'object') {
+        try {
+          return AuthService.checkUser(user.accessToken)
+        } catch (err) {
+          return navigate('/')
+        }
+      } else {
+        return navigate('/')
+      }
+    } else {
+      return navigate('/')
+    }
   }
 
   return {
