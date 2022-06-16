@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const login = async (username, password) => {
-  return await axios.post('auth/login', { username, password }).then((res) => {
+  return axios.post('auth/login', { username, password }).then((res) => {
     if (res.data.accessToken) {
       localStorage.setItem('data', JSON.stringify(res.data))
     }
@@ -11,7 +11,7 @@ const login = async (username, password) => {
 }
 
 const checkUser = async (token) => {
-  return await axios.post('auth/check', { token }).then((res) => {
+  return axios.post('auth/check', { token }).then((res) => {
     return res.data
   })
 }
