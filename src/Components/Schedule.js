@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 
 import { IconButton, Grid, Button, Container, } from '@mui/material'
 import { Edit as EditIcon, Delete as DeleteIcon, Visibility as VisibilityIcon } from '@mui/icons-material'
@@ -13,11 +12,10 @@ import SchedulePostForm from './Other/Schedule/SchedulePostForm'
 import ScheduleEditForm from './Other/Schedule/ScheduleEditForm'
 import ScheduleViewForm from './Other/Schedule/ScheduleViewForm'
 
-import { useUser } from '../Hooks/useUser'
+import { useNavigate } from 'react-router-dom'
+import AuthService from '../Services/Api/Auth.Service'
 
 function Schedule() {
-  const navigate = useNavigate()
-
   const [rows, setRows] = useState([])
 
   const [newModal, setNewModal] = useState({
@@ -121,22 +119,46 @@ function Schedule() {
     }
   ]
 
-  const user = useUser()
+  const navigate = useNavigate()
 
   /**
    * * Estado al Cargar la pagina
    */
-  useEffect(() => {
-    if (user.getUser()) {
-      ScheduleService.getAllSchedule().then((res) => {
-        setRows(res.data)
-      })
 
-      ScheduleService.getAllScheduleRoutes().then((res) => {
-        setComboFill(res.data)
-      })
+   useEffect(() => {
+    ScheduleService.getAllSchedule().then((res) => {
+      setRows(res.data)
+    })
+
+    ScheduleService.getAllScheduleRoutes().then((res) => {
+      setComboFill(res.data)
+    })
+
+    getUser()
+  }, [])
+
+  const getUser = () => {
+    const user = JSON.parse(localStorage.getItem('data'))
+
+    if (user) {
+      if (typeof user === 'object') {
+        try {
+          AuthService.checkUser(user.accessToken).then((res) => {
+            return res.data
+          })
+
+          return true
+        } catch (err) {
+          return navigate('/')
+        }
+      } else {
+        return navigate('/')
+      }
+    } else {
+      return navigate('/')
     }
-  }, [user])
+  }
+
 
   /**
    * * Funciones del Modal View

@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { Button, Container, Grid, Card, CardMedia, CardContent, Typography, Select, MenuItem } from '@mui/material'
 
 import { usePDF } from '../Hooks/usePDF'
-import { useUser } from '../Hooks/useUser'
+
+import { useNavigate } from 'react-router-dom'
+import AuthService from '../Services/Api/Auth.Service'
 
 function Reports() {
   const { reportAllData, reportFifteenDays, reportThirthyDays } = usePDF()
@@ -16,10 +18,32 @@ function Reports() {
     tirthy: async () => reportThirthyDays()
   }
 
-  const user = useUser()
+  const navigate = useNavigate()
   useEffect(() => {
-    user.getUser()
-  }, [user])
+    getUser()
+  }, [])
+
+  const getUser = () => {
+    const user = JSON.parse(localStorage.getItem('data'))
+
+    if (user) {
+      if (typeof user === 'object') {
+        try {
+          AuthService.checkUser(user.accessToken).then((res) => {
+            return res.data
+          })
+
+          return true
+        } catch (err) {
+          return navigate('/')
+        }
+      } else {
+        return navigate('/')
+      }
+    } else {
+      return navigate('/')
+    }
+  }
 
   return (
     <>
