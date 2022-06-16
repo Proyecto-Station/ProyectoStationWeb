@@ -23,7 +23,11 @@ export function useUser() {
     if (user) {
       if (typeof user === 'object') {
         try {
-          return AuthService.checkUser(user.accessToken)
+          AuthService.checkUser(user.accessToken).then((res) => {
+            return res.data
+          })
+
+          return true
         } catch (err) {
           return navigate('/')
         }
