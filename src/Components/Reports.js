@@ -10,32 +10,15 @@ function Reports() {
   const [value, setValue] = useState(false)
 
   const SelectSchedule = {
-    all: () => reportAllData(),
-    fifteen: () => reportFifteenDays(),
-    tirthy: () => reportThirthyDays()
+    all: async () => reportAllData(),
+    fifteen: async () => reportFifteenDays(),
+    tirthy: async () => reportThirthyDays()
   }
 
   return (
     <>
       <Container sx={{ mt: 10 }} minwidth='xs' maxWidth='xxl'>
         <Grid container spacing={2}>
-          <Grid item>
-            <Card sx={{ maxWidth: 245 }}>
-              <CardMedia
-                component='img'
-                alt='img'
-                height='140'
-                image='https://www.alstom.com/sites/alstom.com/files/2019/05/16/Bus%20Electrico51.jpg'
-              />
-              <CardContent>
-                <Typography gutterBottom variant='h6' component="div">Reportes de Horarios</Typography>
-                <Typography variant='body2'>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  <Button onClick={() => reportThirthyDays()} sx={{display: 'block', ml: 'auto', mr: 'auto', mt: 2}} variant='outlined'>Click</Button>
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
           <Grid item>
             <Card sx={{ maxWidth: 245 }}>
               <CardMedia
@@ -64,9 +47,9 @@ function Reports() {
                 </div>
 
                 { value ? (
-                  <Button variant='outlined' sx={{ display: 'block', ml: 'auto', mr: 'auto', mt: 2 }} onClick={SelectSchedule[select]}>tocame</Button>
+                  <Button variant='outlined' sx={{ display: 'block', ml: 'auto', mr: 'auto', mt: 2 }} onClick={SelectSchedule[select]}>Descargar</Button>
                 ) : (
-                  <Button variant='outlined' sx={{ display: 'block', ml: 'auto', mr: 'auto', mt: 2 }} disabled>tocame</Button>
+                  <Button variant='outlined' sx={{ display: 'block', ml: 'auto', mr: 'auto', mt: 2 }} disabled>No Disponible</Button>
                 )}
               </CardContent>
             </Card>
