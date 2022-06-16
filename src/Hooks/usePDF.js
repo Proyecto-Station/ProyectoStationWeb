@@ -14,32 +14,30 @@ export function usePDF() {
   const [fifteenData, setFifteenData] = useState()
   const [thirthyData, setThirthyData] = useState()
 
-  const reportAllData = () => {
-    setAllData()
-
+  const reportAllData = async () => {
     const doc = new jsPDF()
     const headers = [['#', 'Hora Salida', 'Hora Llegada', 'Fecha', 'Origen', 'Destino', 'Empresa']]
 
-    ScheduleService.getAllSchedule().then((res) => setAllData(res.data))
+    try {
+      await ScheduleService.getAllSchedule().then((res) => setAllData(res.data))
 
-    const data = allData.map((p) => [p.id, p.check_in.slice(0, 5), p.check_out.slice(0, 5), p.date.slice(0, 10), p.origen, p.destination, p.company_name])
+      const data = allData.map((p) => [p.id, p.check_in.slice(0, 5), p.check_out.slice(0, 5), p.date.slice(0, 10), p.origen, p.destination, p.company_name])
 
-    const content = {
-      head: headers,
-      body: data
-    }
+      const content = {
+        head: headers,
+        body: data
+      }
 
-    const date = new Date(Date.now())
+      const date = new Date(Date.now())
 
-    let dateFormat = date.toISOString().slice(0, 10)
+      let dateFormat = date.toISOString().slice(0, 10)
 
-    doc.autoTable(content)
-    doc.save('report_' + dateFormat + '.pdf')
+      doc.autoTable(content)
+      doc.save('report_' + dateFormat + '.pdf')
+    } catch (TypeError) { }
   }
 
-  const reportFifteenDays = () => {
-    setFifteenData()
-
+  const reportFifteenDays = async () => {
     const doc = new jsPDF()
     const headers = [['#', 'Hora Salida', 'Hora Llegada', 'Fecha', 'Origen', 'Destino', 'Empresa']]
 
@@ -51,22 +49,22 @@ export function usePDF() {
       date_end: dateEnding.toISOString().slice(0, 10)
     }
 
-    ScheduleService.getDataFifteenDays(data).then((res) => setFifteenData(res.data))
+    try {
+      await ScheduleService.getDataFifteenDays(data).then((res) => setFifteenData(res.data))
 
-    const dataTable = fifteenData.map((p, i) => [(i + 1), p.check_in.slice(0, 5), p.check_out.slice(0, 5), p.date.slice(0, 10), p.origen, p.destination, p.company_name])
+      const dataTable = fifteenData.map((p, i) => [(i + 1), p.check_in.slice(0, 5), p.check_out.slice(0, 5), p.date.slice(0, 10), p.origen, p.destination, p.company_name])
 
-    const content = {
-      head: headers,
-      body: dataTable
-    }
+      const content = {
+        head: headers,
+        body: dataTable
+      }
 
-    doc.autoTable(content)
-    doc.save('report_' + dateNow.toISOString().slice(0, 10) + '.pdf')
+      doc.autoTable(content)
+      doc.save('report_' + dateNow.toISOString().slice(0, 10) + '.pdf')
+    } catch (TypeError) { }
   }
 
-  const reportThirthyDays = () => {
-    setThirthyData()
-
+  const reportThirthyDays = async () => {
     const doc = new jsPDF()
     const headers = [['#', 'Hora Salida', 'Hora Llegada', 'Fecha', 'Origen', 'Destino', 'Empresa']]
 
@@ -78,17 +76,19 @@ export function usePDF() {
       date_end: dateEnding.toISOString().slice(0, 10)
     }
 
-    ScheduleService.getDataFifteenDays(data).then((res) => setThirthyData(res.data))
+    try {
+      await ScheduleService.getDataFifteenDays(data).then((res) => setThirthyData(res.data))
 
-    const dataTable = thirthyData.map((p, i) => [(i + 1), p.check_in.slice(0, 5), p.check_out.slice(0, 5), p.date.slice(0, 10), p.origen, p.destination, p.company_name])
+      const dataTable = thirthyData.map((p, i) => [(i + 1), p.check_in.slice(0, 5), p.check_out.slice(0, 5), p.date.slice(0, 10), p.origen, p.destination, p.company_name])
 
-    const content = {
-      head: headers,
-      body: dataTable
-    }
+      const content = {
+        head: headers,
+        body: dataTable
+      }
 
-    doc.autoTable(content)
-    doc.save('report_' + dateNow.toISOString().slice(0, 10) + '.pdf')
+      doc.autoTable(content)
+      doc.save('report_' + dateNow.toISOString().slice(0, 10) + '.pdf')
+    } catch (TypeError) { }
   }
 
   return {
