@@ -10,8 +10,15 @@ const login = async (username, password) => {
   })
 }
 
+const checkUser = async (token) => {
+  return await axios.post('auth/check', { token }).then((res) => {
+    return res.data
+  })
+}
+
 const AuthService = {
-  login
+  login,
+  checkUser
 }
 
 export default AuthService
