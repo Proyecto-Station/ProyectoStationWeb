@@ -38,7 +38,7 @@ const deleteSchedule = async (id) => {
 }
 
 const getDataFifteenDays = async (data) => {
-  return await axios.post('schedule/filter/all', data, { headers: AuthHeader() }).then((res) => {
+  return await axios.post('schedule/filter/date', data, { headers: AuthHeader() }).then((res) => {
     return res.data
   })
 }
