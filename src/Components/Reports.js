@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button, Container, Grid, Card, CardMedia, CardContent, Typography, Select, MenuItem } from '@mui/material'
 
 import { usePDF } from '../Hooks/usePDF'
+import { useUser } from '../Hooks/useUser'
 
 function Reports() {
   const { reportAllData, reportFifteenDays, reportThirthyDays } = usePDF()
@@ -14,6 +15,11 @@ function Reports() {
     fifteen: async () => reportFifteenDays(),
     tirthy: async () => reportThirthyDays()
   }
+
+  const user = useUser()
+  useEffect(() => {
+    user.getUser()
+  }, [user])
 
   return (
     <>

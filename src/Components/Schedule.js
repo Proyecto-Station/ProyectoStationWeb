@@ -13,6 +13,8 @@ import SchedulePostForm from './Other/Schedule/SchedulePostForm'
 import ScheduleEditForm from './Other/Schedule/ScheduleEditForm'
 import ScheduleViewForm from './Other/Schedule/ScheduleViewForm'
 
+import { useUser } from '../Hooks/useUser'
+
 function Schedule() {
   const navigate = useNavigate()
 
@@ -119,30 +121,22 @@ function Schedule() {
     }
   ]
 
+  const user = useUser()
+
   /**
    * * Estado al Cargar la pagina
    */
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem('data'))
+    if (user.getUser()) {
+      ScheduleService.getAllSchedule().then((res) => {
+        setRows(res.data)
+      })
 
-    if (!data) {
-      navigate('/')
-      window.location.reload()
-    } else {
-      if (!data.accessToken){
-        navigate('/')
-        window.location.reload()
-      }
+      ScheduleService.getAllScheduleRoutes().then((res) => {
+        setComboFill(res.data)
+      })
     }
-
-    ScheduleService.getAllSchedule().then((res) => {
-      setRows(res.data)
-    })
-
-    ScheduleService.getAllScheduleRoutes().then((res) => {
-      setComboFill(res.data)
-    })
-  }, [navigate])
+  }, [user])
 
   /**
    * * Funciones del Modal View
