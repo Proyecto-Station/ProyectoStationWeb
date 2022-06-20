@@ -6,10 +6,7 @@ export function useUser() {
   const navigate = useNavigate()
 
   const loginIn = (username, password) => {
-    return AuthService.login(username, password).then((res) => {
-      navigate('/schedule')
-      return res.data
-    })
+    return AuthService.login(username, password)
   }
 
   const logOut = () => {
