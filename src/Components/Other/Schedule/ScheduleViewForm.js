@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Box, Grid, Modal, Typography } from '@mui/material'
+import { Box, Grid, Modal, Typography, Paper, Button } from '@mui/material'
 
 const Style = {
   textFieldSx: {
@@ -17,6 +17,12 @@ const Style = {
     border: '2px solid #000',
     boxShadow: 24,
     p: 4
+  },
+  buttonCss: {
+    display: 'block',
+    ml: 'auto',
+    mr: 'auto',
+    mt: 1
   }
 }
 
@@ -24,75 +30,86 @@ function ScheduleViewForm({ openModal, onCloseModal, data }) {
   return (
     <>
       <Modal open={openModal} onClose={onCloseModal} >
-        <Grid container direction='column' justifyContent='center' alignItems='center' >
-          <Box sx={Style.modalSx}>
-            <Box component='div' sx={{ mt: 1, mb: 1 }}>
-              <Typography variant='h6'>[{data.id}] Info Viaje: {data.origen} - {data.destination}</Typography>
-            </Box>
-            <Box>
-              <Grid container spacing={2} columns={16}>
-                <Grid item xs={6}>
-                  <Typography>Hora de Salida:</Typography>
-                </Grid>
-                <Grid item xs={8}>
-                  <Typography>{data.check_in.slice(0, 5)}</Typography>
-                </Grid>
-              </Grid>
-            </Box>
-            <Box component='div' sx={{ mt: 1 }}>
-              <Grid container spacing={2} columns={16}>
-                <Grid item xs={6}>
-                  <Typography>Hora de Llegada:</Typography>
-                </Grid>
-                <Grid item xs={8}>
-                  <Typography>{data.check_out.slice(0, 5)}</Typography>
-                </Grid>
-              </Grid>
-            </Box>
-            <Box component='div' sx={{ mt: 1 }}>
-              <Grid container spacing={2} columns={16}>
-                <Grid item xs={6}>
-                  <Typography>Fecha:</Typography>
-                </Grid>
-                <Grid item xs={8}>
-                  <Typography>{data.date.slice(8, 10)}/{data.date.slice(5, 7)}/{data.date.slice(0, 4)}</Typography>
-                </Grid>
-              </Grid>
-            </Box>
-            <Box component='div' sx={{ mt: 1 }}>
-              <Grid container spacing={2} columns={16}>
-                <Grid item xs={6}>
-                  <Typography>Plataforma:</Typography>
-                </Grid>
-                <Grid item xs={8}>
-                  <Typography>{data.platform}</Typography>
-                </Grid>
-              </Grid>
-            </Box>
-            <Box component='div' sx={{ mt: 1 }}>
-              <Grid container spacing={2} columns={16}>
-                <Grid item xs={6}>
-                  <Typography>Empresa:</Typography>
-                </Grid>
-                <Grid item xs={8}>
-                  <Typography>{data.company_name}</Typography>
-                </Grid>
-              </Grid>
-            </Box>
-            <Box component='div' sx={{ mt: 1 }}>
-              <Grid container spacing={2} columns={16}>
-                <Grid item xs={6}>
-                  <Typography>Paradas Extras:</Typography>
-                </Grid>
-                <Grid item xs={8}>
-                  {data.stops.map((p, i) => (
-                    <Typography key={i} component='li'>{p.route}</Typography>
-                  ))}
-                </Grid>
-              </Grid>
-            </Box>
+        <Paper sx={Style.modalSx}>
+          <Box component='div' sx={{ mt: 1, mb: 1 }}>
+            <Typography variant='h6'>[{data.id}] Info Viaje: {data.origen} - {data.destination}</Typography>
           </Box>
-        </Grid>
+          <Box component='div'>
+            <Grid container>
+              <Grid item xs={5}>
+                <Typography>Hora de Salida:</Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography>{data.check_in.slice(0, 5)}</Typography>
+              </Grid>
+            </Grid>
+          </Box>
+          <Box component='div' sx={{mt: 2, mb: 2}}>
+            <Grid container>
+              <Grid item xs={5}>
+                <Typography>Hora de Llegada:</Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography>{data.check_out.slice(0, 5)}</Typography>
+              </Grid>
+            </Grid>
+          </Box>
+          <Box component='div'>
+            <Grid container>
+              <Grid item xs={5}>
+                <Typography>Fecha:</Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography>{data.date.slice(8, 10)}/{data.date.slice(5, 7)}/{data.date.slice(0, 4)}</Typography>
+              </Grid>
+            </Grid>
+          </Box>
+          <Box component='div' sx={{mt: 2, mb: 2}}>
+            <Grid container>
+              <Grid item xs={5}>
+                <Typography>Anden:</Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography>{data.platform}</Typography>
+              </Grid>
+            </Grid>
+          </Box>
+          <Box component='div'>
+            <Grid container>
+              <Grid item xs={5}>
+                <Typography>Valor:</Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography>${data.cost}</Typography>
+              </Grid>
+            </Grid>
+          </Box>
+          <Box component='div' sx={{mt: 2, mb: 2}}>
+            <Grid container>
+              <Grid item xs={5}>
+                <Typography>Empresa:</Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography>{data.company_name}</Typography>
+              </Grid>
+            </Grid>
+          </Box>
+          <Box component='div'>
+            <Grid container>
+              <Grid item xs={5}>
+                <Typography>Paradas:</Typography>
+              </Grid>
+              <Grid item xs={6}>
+                {data.stops.map((p, i) => (
+                  <Typography key={i} component='li'>{p.route}</Typography>
+                ))}
+              </Grid>
+            </Grid>
+          </Box>
+          <Box component='div'>
+            <Button onClick={onCloseModal} variant='outlined' color='error' sx={Style.buttonCss}>Salir</Button>
+          </Box>
+        </Paper>
       </Modal>
     </>
   )
