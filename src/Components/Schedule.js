@@ -18,14 +18,6 @@ import AuthService from '../Services/Api/Auth.Service'
 function Schedule() {
   const [rows, setRows] = useState([])
 
-  const [newModal, setNewModal] = useState({
-    check_in: '',
-    check_out: '',
-    date: '',
-    route_id: '',
-    platform: '',
-    cost: ''
-  })
   const [editModal, setEditModal] = useState({
     id: '',
     check_in: '',
@@ -124,7 +116,6 @@ function Schedule() {
   /**
    * * Estado al Cargar la pagina
    */
-
    useEffect(() => {
     ScheduleService.getAllSchedule().then((res) => {
       setRows(res.data)
@@ -158,7 +149,6 @@ function Schedule() {
       return navigate('/')
     }
   }
-
 
   /**
    * * Funciones del Modal View
@@ -220,32 +210,6 @@ function Schedule() {
   }
 
   /**
-   * * Funciones de Insertar
-   */
-  const onClickModalNew = (e) => {
-    e.preventDefault()
-
-    ScheduleService.postSchedule(newModal).then(() => {
-      onReloadGrid()
-      setNewModal({
-        check_in: '',
-        check_out: '',
-        date: '',
-        route_id: '',
-        platform: '',
-        cost: ''
-      })
-      setOpenNew(false)
-
-      setType('info')
-      setTitle('Creado!!!')
-      setMessage('Horario Creado Correctamente')
-      setVisible(true)
-      setOpenNotify(true)
-    })
-  }
-
-  /**
    * * Funcion de Eliminar
    */
   const onClickDelete = (e, id) => {
@@ -273,12 +237,19 @@ function Schedule() {
     })
   }
 
+  const onMessageGen = ( title, msg, type, status ) => {
+    setType(type)
+    setTitle(title)
+    setMessage(msg)
+    setOpenNotify(status)
+  }
+
   /**
    * * Renderizado de la Pagina
    */
   return (
     <>
-      { openNotify && visible && (
+      { openNotify && (
         <div>
           <SnackbarInfo
             open={openNotify}
@@ -327,16 +298,10 @@ function Schedule() {
       { comboFill && openNew && (
         <SchedulePostForm
           openModal={openNew}
-          data={newModal}
           combo={comboFill}
           onCloseModal={() => setOpenNew(false)}
-          handleChangeCheckIn={ ({target}) => setNewModal({ ...newModal, check_in: target.value}) }
-          handleChangeCheckOut={ ({target}) => setNewModal({ ...newModal, check_out: target.value }) }
-          handleChangeDate={ ({target}) => setNewModal({ ...newModal, date: target.value }) }
-          handleChangeRouteId={ ({target}) => setNewModal({ ...newModal, route_id: target.value }) }
-          handleChangePlatform={ ({target}) => setNewModal({ ...newModal, platform: target.value }) }
-          handleChangeCost={ ({target}) => setNewModal({ ...newModal, cost: target.value }) }
-          onPostSchedule={onClickModalNew}
+          onReloadTable={() => onReloadGrid()}
+          onMessage={(x, y, z, c) => onMessageGen(x, y, z, c)}
         />
       )}
     </>
